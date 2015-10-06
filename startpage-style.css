@@ -1,0 +1,62 @@
+html, body {
+        margin: 0; 
+        padding: 0; 
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+      } 
+
+      .container {
+        max-width: 940px; 
+        margin: 0 auto; 
+      } 
+
+      .header {
+        padding: 40px; 
+        background-color: #fff;
+      } 
+
+      .header h1 {
+        margin: 0; 
+        padding: 0; 
+      } 
+
+      .nav {
+        float:right; 
+        width:340px; 
+      } 
+
+      .nav-pills li a {
+        color:#fff;
+        background:rgba(50, 50, 50, .25);
+        margin-left:10px; 
+        text-align:center; 
+        width:100px; } 
+
+      .nav-pills li.active a:hover {
+        background-color: #d8192f; 
+      } 
+
+      #logo {
+        width:100%;
+        max-width:50px;
+      }
+
+      .jumbotron {
+        background: url(http://static1.squarespace.com/static/5579006be4b01eeef8deb5c5/t/55930a90e4b0d217906d5af0/1435699856827/Work_Background.jpg) no-repeat center center; 
+        background-size:cover; 
+        height: 500px; 
+        padding-top: 25px; 
+        margin-bottom: 0; 
+      } 
+
+      .jumbotron h2:first-child {
+        margin:0px 0 0; 
+      } 
+
+      .jumbotron h2 {
+        color:#fff; 
+        font-size: 60px; 
+        text-align: right; 
+        margin:0; 
+        width:100%; 
+      } 

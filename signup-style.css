@@ -6,7 +6,8 @@ html, body {
 
 body {
     background-image: url('https://s3.amazonaws.com/codecademy-content/projects/pocketbook/bg.jpg');
-    background-size:cover;
+    background-size: cover;
+    background-position: 50% 50%;
     background-repeat:no-repeat;
     background-color: #140e07;
     color:#fff;
@@ -47,6 +48,7 @@ form input.form-control {
 
 .main .btn {
   margin-top:30px;
+  margin-bottom:30px;
   color:#fff;
   background:rgba(0, 240, 290, 0.25);
   border: 0px;

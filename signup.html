@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
+    <!-- Parse -->
+    <script src="//www.parsecdn.com/js/parse-1.6.4.min.js"></script>
+    <!-- Link to style.css -->
+    <link rel="stylesheet" type="text/css" href="signup-style.css">
+    <!-- jQuery -->
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2'></script>
+    <!-- Link to JavaScript -->
+    <script src="signup-scripts.js"></script>
+  </head>
+
+  <body>
+    <div class="header">
+      <div class="container">
+			<img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
+      </div>
+    </div>
+
+    <div class="main">
+      	<div class="container">
+      		<div class = "row">
+      			<div class="col-md-7">
+	        		<h1>Sign Up</h1>
+			        <form role="form">
+                  <div class="form-group">
+                    <label for="inputUsername">Username</label>
+                    <input type="text" class="form-control" id="inputUsername">
+                  </div>
+			          	<div class="form-group">
+			            	<label for="inputFirstName">First name</label>
+			            	<input type="text" class="form-control" id="inputFirstName">
+			          	</div>
+			          	<div>
+			          	<div class="form-group">
+			            	<label for="inputLastName">Last name</label>
+			            	<input type="text" class="form-control" id="inputLastName">
+			          	</div>
+			          	<div class="form-group">
+			            	<label for="inputEmail">Email address</label>
+			            	<input type="email" class="form-control" id="inputEmail">
+			          	</div>
+			          	<div class="form-group">
+			            	<label for="inputPassword">Password</label>
+			            	<input type="password" class="form-control" id="inputPassword">
+			          	</div>
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword">
+                  </div>
+                  <div class="form-group">
+                    <label for="selectRole">Select Role:</label>
+                    <select class="form-control" id="selectRole">
+                      <option>Team Member</option>
+                      <option>Team Leader</option>
+                      <option>Team Admin</option>
+                    </select>
+                  </div>
+			          	<button type="submit" class="btn" id="signupbutton">Create Account</button>
+			        </form>
+		    	 </div>
+    		  </div>
+      	</div>
+    </div>
+
+    <div class="footer">
+  		<div class="container">
+     		<ul>
+            <li><a href="login.html">Log In</a></li>
+       			<li><a href="#">Contact</a></li>
+       			<li><a href="#">Help Center</a></li>
+       			<li><a href="#">About</a></li>
+    		</ul>
+  		</div>
+    </div>
+  </body>
+</html>
