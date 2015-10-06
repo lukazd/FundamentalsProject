@@ -21,17 +21,17 @@ var main = function() {
 			user.set("password", password);
 			if(role == "Team Member") {
 				user.set("isTeamMember", "true");
-				user.set("isteamLeader", "false");
+				user.set("isTeamLeader", "false");
 				user.set("isTeamAdmin", "false");
 			}
 			else if(role == "Team Leader") {
 				user.set("isTeamMember", "false");
-				user.set("isteamLeader", "true");
+				user.set("isTeamLeader", "true");
 				user.set("isTeamAdmin", "false");
 			}
 			else if(role == "Team Admin") {
 				user.set("isTeamMember", "false");
-				user.set("isteamLeader", "false");
+				user.set("isTeamLeader", "false");
 				user.set("isTeamAdmin", "true");
 			}
 
