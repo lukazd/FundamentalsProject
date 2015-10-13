@@ -11,8 +11,10 @@ var main = function() {
 		var password = $('#inputPassword').val();
 		var confirmPassword = $('#confirmPassword').val();
 		var role = $('#selectRole').val();
+		var validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-		if(password == confirmPassword) {
+		
+		if(password == confirmPassword && validPassword.test(password)) {
 			var user = new Parse.User();
 			user.set("username", username);
 			user.set("firstName", firstName);
@@ -51,6 +53,10 @@ var main = function() {
 					alert("Error: " + error.code + " " + error.message);
 				}
 			});
+		}
+		else if(!validPassword.test(password))
+		{
+			alert("Password needs to contain one capital letter, lowercase letter, number, and one of these symbols (#?!@$%^&*-) and be at least be 8 characters long!"); 
 		}
 		else {
 			alert("Passwords do not match!");
