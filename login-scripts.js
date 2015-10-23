@@ -12,7 +12,15 @@ var main = function() {
 				$('#inputUsername').val('');
 				$('#inputPassword').val('');
 
-				window.location = "landing-page.html";
+				if (Parse.User.current().get("emailVerified") == true)
+					{
+						
+					window.location = "landing-page.html";
+					}
+				else
+				{
+					window.alert("verify email");
+				}
 			},
 			error: function(user, error) {
 				alert("Error: " + error.code + " " + error.message);
@@ -21,6 +29,8 @@ var main = function() {
 
 		return false;
 	});
+
+
 }
 
 $(document).ready(main);

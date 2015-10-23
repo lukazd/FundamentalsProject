@@ -11,6 +11,9 @@ var main = function() {
 		var password = $('#inputPassword').val();
 		var confirmPassword = $('#confirmPassword').val();
 		var role = $('#selectRole').val();
+		var gender = $('#selectGender').val();
+		var dob = $('#dob').val();
+		var teamname = $('#teamname').val();
 		var validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
 		
@@ -25,16 +28,19 @@ var main = function() {
 				user.set("isTeamMember", "true");
 				user.set("isTeamLeader", "false");
 				user.set("isTeamAdmin", "false");
+
 			}
 			else if(role == "Team Leader") {
 				user.set("isTeamMember", "false");
 				user.set("isTeamLeader", "true");
 				user.set("isTeamAdmin", "false");
+				user.set("userCode" , 1245)
 			}
 			else if(role == "Team Admin") {
 				user.set("isTeamMember", "false");
 				user.set("isTeamLeader", "false");
 				user.set("isTeamAdmin", "true");
+				user.set("userCode" , 1234)
 			}
 
 			user.signUp(null, {
@@ -47,7 +53,10 @@ var main = function() {
 					$('#inputPassword').val('');
 					$('#confirmPassword').val('');
 
-					window.location = "landing-page.html";
+					window.location = "verification.html";
+
+
+
 				},
 				error: function(user, error) {
 					alert("Error: " + error.code + " " + error.message);

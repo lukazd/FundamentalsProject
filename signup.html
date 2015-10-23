@@ -29,32 +29,47 @@
 	        		<h1>Sign Up</h1>
 			        <form role="form">
                   <div class="form-group">
-                    <label for="inputUsername">Username</label>
+                    <label for="inputUsername">*Username</label>
                     <input type="text" class="form-control" id="inputUsername">
                   </div>
 			          	<div class="form-group">
-			            	<label for="inputFirstName">First name</label>
+			            	<label for="inputFirstName">*First name</label>
 			            	<input type="text" class="form-control" id="inputFirstName">
 			          	</div>
 			          	<div>
 			          	<div class="form-group">
-			            	<label for="inputLastName">Last name</label>
+			            	<label for="inputLastName">*Last name</label>
 			            	<input type="text" class="form-control" id="inputLastName">
 			          	</div>
 			          	<div class="form-group">
-			            	<label for="inputEmail">Email address</label>
+			            	<label for="inputEmail">*Email address</label>
 			            	<input type="email" class="form-control" id="inputEmail">
 			          	</div>
+                  <div class="form-group">
+                    <label for="selectRole">*Gender</label>
+                    <select class="form-control" id="selectGender">
+                      <option>Male</option>
+                      <option>Female</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail">*DOB</label>
+                    <input type="date" class="form-control" id="dob">
+                  </div>
 			          	<div class="form-group">
-			            	<label for="inputPassword">Password</label>
+			            	<label for="inputPassword">*Password</label>
 			            	<input type="password" class="form-control" id="inputPassword">
 			          	</div>
                   <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
+                    <label for="confirmPassword">*Confirm Password</label>
                     <input type="password" class="form-control" id="confirmPassword">
                   </div>
                   <div class="form-group">
-                    <label for="selectRole">Select Role:</label>
+                    <label for="confirmPassword">*Team Name</label>
+                    <input type="text" class="form-control" id="teamname">
+                  </div>
+                  <div class="form-group">
+                    <label for="selectRole">*Select Role:</label>
                     <select class="form-control" id="selectRole">
                       <option>Team Member</option>
                       <option>Team Leader</option>
@@ -76,6 +91,7 @@
        			<li><a href="#">Help Center</a></li>
        			<li><a href="#">About</a></li>
     		</ul>
+        <p>* fields are necessary</p>
   		</div>
     </div>
   </body>
