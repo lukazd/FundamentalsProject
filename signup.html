@@ -57,7 +57,7 @@
                     <input type="date" class="form-control" id="dob">
                   </div>
 			          	<div class="form-group">
-			            	<label for="inputPassword">*Password</label>
+			            	<label for="inputPassword">*Password (1 upper, 1 lower, 1 number, 1 symbol, > 7 characters)</label>
 			            	<input type="password" class="form-control" id="inputPassword">
 			          	</div>
                   <div class="form-group">
@@ -66,7 +66,7 @@
                   </div>
                   <div class="form-group">
                     <label for="confirmPassword">*Team Name</label>
-                    <input type="text" class="form-control" id="teamname">
+                    <input type="text" class="form-control" id="teamName">
                   </div>
                   <div class="form-group">
                     <label for="selectRole">*Select Role:</label>
@@ -75,6 +75,10 @@
                       <option>Team Leader</option>
                       <option>Team Admin</option>
                     </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="roleCode">*Role Code (Leave as 0 if Team Member)</label>
+                    <input type="text" class="form-control" id="roleCode">
                   </div>
 			          	<button type="submit" class="btn" id="signupbutton">Create Account</button>
 			        </form>

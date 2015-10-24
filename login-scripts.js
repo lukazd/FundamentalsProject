@@ -8,18 +8,18 @@ var main = function() {
 
 		Parse.User.logIn(username, password, {
 			success: function(user) {
-				$('<p>').text("Login successful.").appendTo('form');
 				$('#inputUsername').val('');
 				$('#inputPassword').val('');
 
 				if (Parse.User.current().get("emailVerified") == true)
 					{
+						$('<p>').text("Login successful.").appendTo('form');
 						
-					window.location = "landing-page.html";
+						window.location = "landing-page.html";
 					}
 				else
 				{
-					window.alert("Verify E-mail");
+					window.alert("You must verify your e-mail before you can log in");
 				}
 			},
 			error: function(user, error) {

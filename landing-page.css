@@ -25,6 +25,12 @@ h6 {
     font-size: 14px; 
 }
 
+.topnav .btn {
+    margin-top:10px;
+    margin-bottom:10px;
+
+}
+
 .lead {
     font-size: 18px;
     font-weight: 400;

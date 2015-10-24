@@ -15,6 +15,14 @@ var main = function() {
 
 	$('#name').text(firstName + " " + lastName);
 	$('#user-role').text(userRole);
+
+	$('#logoutbutton').click(function() {
+		Parse.User.logOut();
+
+		window.location = "index.html";
+
+		return false;
+	});
 }
 
 $(document).ready(main);
