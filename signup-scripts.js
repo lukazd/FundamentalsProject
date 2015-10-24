@@ -10,7 +10,7 @@ var main = function() {
 	var query = new Parse.Query(TeamRole);
 	query.get("Igi7aq1VeK", {
 		success: function(teamRole){
-			teamLeaderKey = teamRole.get("Key");;
+			teamLeaderKey = teamRole.get("Key");
 		},
 		error: function(object, error){
 			alert("Error: " + error.code + " " + error.message);

@@ -23,6 +23,32 @@ var main = function() {
 
 		return false;
 	});
+
+	var teamName = Parse.User.current().get("teamName");
+
+	var User = Parse.Object.extend("_User");
+	var query = new Parse.Query(User);
+	query.equalTo("teamName", teamName);
+	query.find({
+		success: function(results) {
+			for(var i = 0; i < results.length; i++){
+				var object = results[i];
+				var teammateName = object.get('firstName') + " " + object.get('lastName');
+				var teammateRole = "Team Member";
+				if(object.get("isTeamLeader") == "true"){
+					teammateRole = "Team Leader";
+				}
+				else if(object.get("isTeamAdmin") == "true"){
+					teammateRole = "Team Admin";
+				}
+
+				$('<li>').text(teammateName + ": " + teammateRole).appendTo('#listholder');
+			}
+		},
+		error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		}
+	});
 }
 
 $(document).ready(main);
