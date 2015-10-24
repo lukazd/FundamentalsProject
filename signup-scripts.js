@@ -43,6 +43,20 @@ var main = function() {
 		var gender = $('#selectGender').val();
 		var dob = $('#dob').val();
 		var teamName = $('#teamName').val();
+		var projectName = "";
+		if(teamName != ""){
+			var User = Parse.Object.extend("_User");
+			var query = new Parse.Query(User);
+			query.equalTo("teamName", teamName);
+			query.first({
+				success: function(object) {
+					projectName = object.get("projectName");
+				},
+				error: function(error) {
+					alert("Error: " + error.code + " " + error.message);
+				}
+			});
+		}
 		var validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
 		if(password != confirmPassword){
@@ -86,6 +100,7 @@ var main = function() {
 			user.set("gender", gender);
 			user.set("dob", dob);
 			user.set("teamName", teamName);
+			user.set("projectName", projectName);
 
 			user.signUp(null, {
 				success: function(user) {

@@ -119,20 +119,29 @@ h6 {
     border-top: 3px solid #e7e7e7;
 }
 
-.banner {
+.teamsection {
     padding: 100px 0;
     color: #f8f8f8;
     background-color:#36343f;
 }
 
-.banner h3 {
+.teamsection h3 {
     margin: 0; 
     padding: 0; 
     color:#fff; 
 } 
 
-.banner ul {
+.teamsection ul {
     margin-bottom: 0;
+}
+
+.projectsection {
+    padding: 100px 0;
+}
+
+#addProjectButton {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 footer {
