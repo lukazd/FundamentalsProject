@@ -53,8 +53,8 @@ var main = function() {
 					$('#inputPassword').val('');
 					$('#confirmPassword').val('');
 
-					window.location = "verification.html";
-
+					//window.location = "verification.html";
+					alert("Please verify your e-mail then log in");
 
 
 				},

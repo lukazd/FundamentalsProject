@@ -19,7 +19,7 @@ var main = function() {
 					}
 				else
 				{
-					window.alert("verify email");
+					window.alert("Verify E-mail");
 				}
 			},
 			error: function(user, error) {
