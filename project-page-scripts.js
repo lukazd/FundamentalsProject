@@ -53,43 +53,8 @@ var main = function() {
 		
 		
 		$('#answerlistdropdown').empty();
+		currentQuestion = 0;
 		
-		var Question = Parse.Object.extend("Question");
-		var query = new Parse.Query(Question);
-		query.equalTo("category", category);
-		query.find({
-			success: function(results){
-				$('#questiontext').text(results[0].get("text"));
-				var questionId = results[0].get("questionId");
-				var Answer = Parse.Object.extend("Answer");
-				var answerQuery = new Parse.Query(Answer);
-				answerQuery.equalTo("questionId", questionId);
-				answerQuery.find({
-					success: function(answerResults){
-						for(var i = 0; i < answerResults.length; i++){
-						//display all answers found for that question
-							$("#answerlistdropdown").append('<li><a href="#" id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
-							//$("#answerlistdropdown").append('<li><a href="#">'+ answerResults[i].get("text")+'</a></li>');
-						
-							
-						}
-					}
-				});
-			}
-		});	
-	});
-	$('.dropdown-menu').on('click', 'a.answerchoice', function(){
-		// Get which answer choice wsas
-		var idClicked = this.id;
-		var idNumber = parseInt(idClicked.charAt(idClicked.length-1));
-		if(idNumber == 1)
-		{
-			window.alert("sdkf");
-		}
-		
-		$('#answerlistdropdown').empty();
-		
-		currentQuestion++;
 		var Question = Parse.Object.extend("Question");
 		var query = new Parse.Query(Question);
 		query.equalTo("category", category);
@@ -111,6 +76,41 @@ var main = function() {
 						}
 					}
 				});
+			}
+		});	
+	});
+	$('.dropdown-menu').on('click', 'a.answerchoice', function(){
+		// Get which answer choice wsas
+		var idClicked = this.id;
+		var idNumber = parseInt(idClicked.charAt(idClicked.length-1));
+		
+		$('#answerlistdropdown').empty();
+		
+		currentQuestion++;
+		var Question = Parse.Object.extend("Question");
+		var query = new Parse.Query(Question);
+		query.equalTo("category", category);
+		query.find({
+			success: function(results){
+				if(results.length > currentQuestion) {
+				
+					$('#questiontext').text(results[currentQuestion].get("text"));
+					var questionId = results[currentQuestion].get("questionId");
+					var Answer = Parse.Object.extend("Answer");
+					var answerQuery = new Parse.Query(Answer);
+					answerQuery.equalTo("questionId", questionId);
+					answerQuery.find({
+						success: function(answerResults){
+							for(var i = 0; i < answerResults.length; i++){
+							//display all answers found for that question
+								$("#answerlistdropdown").append('<li><a href="#" id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');											
+							}
+						}
+					});
+				}
+				else {
+					$('#questiontext').text("All questions completed for this category");
+				}
 			}
 		});
 	});
