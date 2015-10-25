@@ -6,9 +6,20 @@ var main = function() {
 	var lastName = Parse.User.current().get("lastName");
 	var userRole = "Team Member";
 	var projectName = Parse.Projects
+	
+	// Keeps track of the nth question in the category (Does not correlate to questionId)
 	var currentQuestion = 0;
+	
+	// Keeps track of the current question's id
+	var currentQuestionId = 0;
+	
 	var category = "team";
-
+	
+	// The scores for the process models in the order Waterfall, Agile, Iterative Waterfall, RAD, COTS, Spiral
+	var scores = [0, 0, 0, 0, 0, 0];
+	
+	var currentAnswerResults;
+	
 	if( Parse.User.current().get("isTeamLeader") == "true" ) {
 		userRole = "Team Leader";
 	}
@@ -35,7 +46,7 @@ var main = function() {
 	// Start the initial question depending on the category selected and populate answers
 	$('#categorydiv').click(function(e) {
 		var idClicked = e.target.id;
-		if(idClicked == "timecategorybutton")
+		if(idClicked == "teamcategorybutton")
 		{
 			category = "team";
 		}
@@ -68,12 +79,14 @@ var main = function() {
 			success: function(results){
 				$('#questiontext').text(results[currentQuestion].get("text"));
 				var questionId = results[currentQuestion].get("questionId");
+				currentQuestionId = questionId;
 				var Answer = Parse.Object.extend("Answer");
 				var answerQuery = new Parse.Query(Answer);
 				answerQuery.ascending("answerId");
 				answerQuery.equalTo("questionId", questionId);
 				answerQuery.find({
 					success: function(answerResults){
+						currentAnswerResults = answerResults;
 						for(var i = 0; i < answerResults.length; i++){
 						//display all answers found for that question
 							$("#answerlistdropdown").append('<li><a href="#" id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
@@ -86,10 +99,32 @@ var main = function() {
 			}
 		});	
 	});
+	
+	// Respond to an answer click
 	$('.dropdown-menu').on('click', 'a.answerchoice', function(){
 		// Get which answer choice wsas
 		var idClicked = this.id;
 		var idNumber = parseInt(idClicked.charAt(idClicked.length-1));
+		
+		
+		// Find the answer based on answerId and questionId
+		var answerQuery = new Parse.Query("Answer");
+		answerQuery.equalTo("answerId", idNumber);
+		answerQuery.equalTo("questionId", currentQuestionId);
+
+		answerQuery.find({
+			success: function(answer) {
+			// The object was retrieved successfully.
+				// Increment the score for each process model by the answers values
+				scores[0] += answer[0].get("waterfallValue");
+				scores[1] += answer[0].get("agileValue");
+				scores[2] += answer[0].get("iterativeWaterfallValue");
+				scores[3] += answer[0].get("rADValue");
+				scores[4] += answer[0].get("cOTSValue");
+				scores[5] += answer[0].get("lastProcessValue");
+			}
+		});
+		
 		
 		$('#answerlistdropdown').empty();
 		
@@ -103,6 +138,7 @@ var main = function() {
 				
 					$('#questiontext').text(results[currentQuestion].get("text"));
 					var questionId = results[currentQuestion].get("questionId");
+					currentQuestionId = questionId;
 					var Answer = Parse.Object.extend("Answer");
 					var answerQuery = new Parse.Query(Answer);
 					answerQuery.ascending("answerId");
@@ -122,15 +158,46 @@ var main = function() {
 			}
 		});
 	});
-
 	
-	// Respond to an answer click
-	//$(".answerchoice").change(function(e) {
-	//	var answerListSize = $('#answerlistdropdown').size();
-	//	var idClicked = e.target.id;
-		
-	//});
+	// Respond to finish survey click
+	$('#finishsurveybutton').click(function() {
+		var highestScore = 0;
+		var bestProcessModelIndex = 0;
+		var bestProcessModelName;
+		for(var i = 0; i < scores.length; i++) {
+			if(scores[i] > highestScore) {
+				highestScore = scores[i];
+				bestProcessModelIndex = i;
+			}
+		}
+		switch(bestProcessModelIndex) {
+			case 0:
+				bestProcessModelName = "Waterfall";
+				break;
+			case 1:
+				bestProcessModelName = "Agile";
+				break;
+			case 2:
+				bestProcessModelName = "Iterative Waterfall";
+				break;
+			case 3:
+				bestProcessModelName = "Rapid Application Development";
+				break;
+			case 4:
+				bestProcessModelName = "Components Off The Shelf";
+				break;
+			case 5:
+				bestProcessModelName = "Spiral";
+				break;
+			default:
+				bestProcessModelName = "Agile";
+				break;
+				
+		}
 
+		window.alert("We recommend the process model: " + bestProcessModelName);
+		
+	}); 
 
 	//get the current users team name to make a query to find all other users with that team name
 	var teamName = Parse.User.current().get("teamName");
@@ -150,11 +217,6 @@ var main = function() {
 			}
 		}
 	});
-
-	//if user is team leader, allow them to do the questionnaire
-	if(userRole == "Team Leader"){
-		
-	}
 
 }
 
