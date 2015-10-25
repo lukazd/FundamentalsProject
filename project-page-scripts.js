@@ -27,6 +27,11 @@ var main = function() {
 		return false;
 	});
 	
+	// Remove the questionnaire for non team leaders
+	if(!(userRole === "Team Leader")) {
+		$('.questionnaire').remove();
+	}
+	
 	// Start the initial question depending on the category selected and populate answers
 	$('#categorydiv').click(function(e) {
 		var idClicked = e.target.id;
@@ -38,6 +43,7 @@ var main = function() {
 		{
 			category = "resources";
 		}
+		// These ones need to be updated once the categories are added
 		else if(idClicked == "timecategorybutton")
 		{
 			category = "team";
