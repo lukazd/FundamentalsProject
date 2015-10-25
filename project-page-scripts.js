@@ -64,6 +64,7 @@ var main = function() {
 				var questionId = results[currentQuestion].get("questionId");
 				var Answer = Parse.Object.extend("Answer");
 				var answerQuery = new Parse.Query(Answer);
+				answerQuery.ascending("answerId");
 				answerQuery.equalTo("questionId", questionId);
 				answerQuery.find({
 					success: function(answerResults){
@@ -98,6 +99,7 @@ var main = function() {
 					var questionId = results[currentQuestion].get("questionId");
 					var Answer = Parse.Object.extend("Answer");
 					var answerQuery = new Parse.Query(Answer);
+					answerQuery.ascending("answerId");
 					answerQuery.equalTo("questionId", questionId);
 					answerQuery.find({
 						success: function(answerResults){
