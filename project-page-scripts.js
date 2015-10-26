@@ -2,10 +2,10 @@ var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
-	var firstName = Parse.User.current().get("firstName");
-	var lastName = Parse.User.current().get("lastName");
+	var teamName = Parse.User.current().get("teamName");
 	var userRole = "Team Member";
-	var projectName = Parse.Projects
+	var projectName = "Default Project Name";
+	var selecteProcessModel = "Use the questionnaire below to help you select a process model";
 	
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
 	var currentQuestion = 0;
@@ -13,12 +13,30 @@ var main = function() {
 	// Keeps track of the current question's id
 	var currentQuestionId = 0;
 	
+	// The selected category of questions
 	var category = "team";
 	
 	// The scores for the process models in the order Waterfall, Agile, Iterative Waterfall, RAD, COTS, Spiral
 	var scores = [0, 0, 0, 0, 0, 0];
 	
 	var currentAnswerResults;
+
+	var Projects = Parse.Object.extend("Projects");
+	var query = new Parse.Query(Projects);
+	query.find({
+		success: function(results) {
+			for(var i in results) {
+				if(results[i].get("assignedTeam") === teamName) {
+					projectName = results[i].get("projectName");
+					$('#projectnameheader').text(projectName);
+					if(results[i].get("processModel") !== null) {
+						selectedProcessModel = results[i].get("processModel");
+						$('#processmodelheader').text(selectedProcessModel);
+					}
+				}
+			}
+		}
+	});
 	
 	if( Parse.User.current().get("isTeamLeader") == "true" ) {
 		userRole = "Team Leader";
@@ -38,10 +56,58 @@ var main = function() {
 		return false;
 	});
 	
-	// Remove the questionnaire for non team leaders
+	// Remove the questionnaire and process selector for non team leaders
 	if(!(userRole === "Team Leader")) {
 		$('.questionnaire').remove();
+		$('#processmodeldiv').remove();
 	}
+
+	// Save the process model chosen to the database
+	$('#processmodeldropdown').click(function(e) {
+		var idClicked = e.target.id;
+		selectedProcessModel = "No Process Model Selected";
+		if(idClicked == "waterfallbutton")
+		{
+			selectedProcessModel = "Waterfall";
+		}
+		else if(idClicked == "agilebutton")
+		{
+			selectedProcessModel = "Agile";
+		}
+		// These ones need to be updated once the categories are added
+		else if(idClicked == "iterativewaterfallbutton")
+		{
+			selectedProcessModel = "Iterative Waterfall";
+		}
+		else if(idClicked == "radbutton")
+		{
+			selectedProcessModel = "Rapid Application Development";
+		}
+		else if(idClicked == "cotsbutton")
+		{
+			selectedProcessModel = "Components Off The Shelf";
+		}
+		else if(idClicked == "spiralbutton")
+		{
+			selectedProcessModel = "Spiral";
+		}
+		$('#processmodelheader').text(selectedProcessModel);
+		
+		var Projects = Parse.Object.extend("Projects");
+		var query = new Parse.Query(Projects);
+		query.find({
+			success: function(results) {
+				for(var i in results) {
+					if(results[i].get("projectName") === projectName) {
+						results[i].set("processModel", selectedProcessModel);
+						results[i].save();
+						break;
+					}
+				}
+			}
+		});
+			
+	});
 	
 	// Start the initial question depending on the category selected and populate answers
 	$('#categorydiv').click(function(e) {
