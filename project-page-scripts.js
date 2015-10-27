@@ -114,24 +114,32 @@ var main = function() {
 		var idClicked = e.target.id;
 		if(idClicked == "teamcategorybutton")
 		{
-			category = "team";
+			category = "Team";
 		}
 		else if(idClicked == "resourcescategorybutton")
 		{
-			category = "resources";
+			category = "Resources";
 		}
 		// These ones need to be updated once the categories are added
 		else if(idClicked == "timecategorybutton")
 		{
-			category = "team";
+			category = "Time";
 		}
-		else if(idClicked == "timecategorybutton")
+		else if(idClicked == "costcategorybutton")
 		{
-			category = "team";
+			category = "Cost";
 		}
-		else if(idClicked == "timecategorybutton")
+		else if(idClicked == "softwarecategorybutton")
 		{
-			category = "team";
+			category = "Software";
+		}
+		else if(idClicked == "experiencecategorybutton")
+		{
+			category = "Experience";
+		}
+		else if(idClicked == "misccategorybutton")
+		{
+			category = "Misc.";
 		}
 		
 		
