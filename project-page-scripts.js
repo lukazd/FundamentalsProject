@@ -2,11 +2,12 @@ var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
-	var teamName = Parse.User.current().get("teamName");
+	var projectName = Parse.User.current().get("projectName");
 	var userRole = "Team Member";
-	var projectName = "Default Project Name";
+	//var projectName = "Default Project Name";
 	var selecteProcessModel = "Use the questionnaire below to help you select a process model";
 	
+	$('#projectnameheader').text(projectName);
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
 	var currentQuestion = 0;
 	
@@ -283,6 +284,33 @@ var main = function() {
 			}
 		}
 	});
+
+	var User = Parse.Object.extend("_User");
+	var query = new Parse.Query(User);
+	query.equalTo("teamName", teamName);
+	query.find({
+		success: function(results) {
+			for(var i = 0; i < results.length; i++){
+				var object = results[i];
+				//get the fields for each team member found
+				var teammateName = object.get('firstName') + " " + object.get('lastName');
+				var teammateRole = "Team Member";
+				if(object.get("isTeamLeader") == "true"){
+					teammateRole = "Team Leader";
+				}
+				else if(object.get("isTeamAdmin") == "true"){
+					teammateRole = "Team Admin";
+				}
+
+				//display the team members in a list
+				$('<li>').text(teammateName + ": " + teammateRole).appendTo('#teamlistholder');
+			}
+		},
+		error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		}
+	});
+
 
 }
 

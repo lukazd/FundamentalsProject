@@ -15,19 +15,18 @@
     <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
 
     <!-- Custom CSS -->
-    <link href="project-page.css" rel="stylesheet">
+    <link href="landing-page.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Parse -->
     <script src="//www.parsecdn.com/js/parse-1.6.4.min.js"></script>
-	
-	<!-- Bootstrap core JavaScript-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="bootstrap.min.js"></script>
-	
-    <script src="project-page-scripts.js"></script>
+
+    <!-- jQuery -->
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2'></script>
+
+    <script src="landing-page-scripts.js"></script>
 
 </head>
 
@@ -48,6 +47,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    
+                    <li>
+                        <a href="project-page.html">Projects</a>
+                    </li>
+                    <li>
+                        <a href="change-leader.html">Change Team Leader</a>
+                    </li>
                     <li>
                         <a href="#about">About</a>
                     </li>
@@ -57,7 +63,7 @@
                     <li>
                         <a href="#contact">Contact</a>
                     </li>
-					<li>
+                    <li>
                         <button type="submit" class="btn" id="logoutbutton">Log Out</button>
                     </li>
                 </ul>
@@ -76,33 +82,25 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1 id="projectnameheader">Insert Project Name</h1>	
-						<h2 id="processmodelheader">Use the questionnaire below to help you select a process model</h2>
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-								Select a Process Model
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu" id = "processmodeldropdown">
-								<li><a href="#" id="waterfallbutton">Waterfall</a></li>
-								<li><a href="#" id="agilebutton">Agile</a></li>
-								<li><a href="#" id="iterativewaterfallbutton">Iterative Waterfall</a></li>
-								<li><a href="#" id="radbutton">RAD</a></li>
-								<li><a href="#" id="cotsbutton">COTS</a></li>
-								<li><a href="#" id="spiralbutton">Spiral</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                        <h1>Welcome</h1>
+                        <!-- get user's name here -->
+                        <h3 id='name'>Name Not Found</h3>
+                        <h3 id='user-role'>Role Not Found</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <!-- /.container -->
     </div>
     <!-- /.intro-header -->
-	
-     <div class="teamsection"> 
+
+    <div class="teamsection"> 
         <div class="container"> 
-            <h3>Project Team:</h3> 
+            <h3>My Team:</h3> 
             <ul class="team-members">
                 <li>
                     <div id="teamlistholder"></div>
@@ -110,41 +108,18 @@
             </ul>
         </div> 
     </div>
-    
-	<div class="questionnaire">
-		<!-- Questionnaire Header -->
-		<div class="questionnaire-header">
-			<h1>Questionnaire <small>Select a Category</small></h1>
-		</div>
-		
-		<div class="btn-group" role="group" aria-label="..." id ="categorydiv">
-			<button type="button" class="btn btn-default" id="teamcategorybutton">Team</button>
-			<button type="button" class="btn btn-default" id="resourcescategorybutton">Resources</button>
-			<button type="button" class="btn btn-default">Cost</button>
-			<button type="button" class="btn btn-default">Time</button>
-			<button type="button" class="btn btn-default">Experience</button>
-			<button type="button" class="btn btn-default">Software</button>
-		</div>
-		
-		<!-- Questionnaire Body -->
-		<button type="button" class="btn btn-default" id="finishsurveybutton">Finish Survey</button>
-		<h2>Question</h2>
-		<p id="questiontext">Questions will appear here when a category is selected.</p>
-		<div class="dropdown">
-			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-				Answer Choices
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" id = "answerlistdropdown">
-				<li><a href="#">Answer Choice 1</a></li>
-				<li><a href="#">Answer Choice 2</a></li>
-				<li><a href="#">Answer Choice 3</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
 
-<div style="height:50px;"></div>
+    <div class="projectsection">
+        <div class="container">
+            <h3>Project:</h3>
+            <ul class="projects">
+                <li>
+                    <div id="projectlistholder"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -172,9 +147,5 @@
             </div>
         </div>
     </footer>
-	
-	
-	
 </body>
-
 </html>

@@ -13,9 +13,23 @@ var main = function() {
 
 				if (Parse.User.current().get("emailVerified") == true)
 					{
-						$('<p>').text("Login successful.").appendTo('form');
+						var value = Parse.User.current().get("isTeamAdmin")
+						$('<p>').text(value).appendTo('form');
 						
-						window.location = "landing-page.html";
+						if(Parse.User.current().get("isTeamAdmin")){
+							
+							window.location = "admin-page.html";
+							
+						}
+						else{
+
+							$('<p>').text("neopee").appendTo('form');
+
+							window.location = "landing-page.html";
+							
+						}
+						
+						
 					}
 				else
 				{
