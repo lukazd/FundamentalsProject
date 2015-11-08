@@ -318,6 +318,23 @@ var main = function() {
 			alert("Error: " + error.code + " " + error.message);
 		}
 	});
+	
+	// Initialize the calendar
+	$('#calendar').fullCalendar({
+			// put your options and callbacks here
+	})
+	
+	$('#addeventbutton').click(function() {
+		var projectCalendar = $('#calendar');
+		projectCalendar.fullCalendar();
+		var newEvent = {
+			title: $('#eventdescription').val(),
+			allDay: true,
+			start: new Date($('#startdate').val())
+			//start: new Date()
+		};
+		projectCalendar.fullCalendar('renderEvent', newEvent);
+	});
 
 
 }
