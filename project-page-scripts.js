@@ -333,7 +333,7 @@ var main = function() {
 			start: new Date($('#startdate').val())
 			//start: new Date()
 		};
-		projectCalendar.fullCalendar('renderEvent', newEvent);
+		projectCalendar.fullCalendar('renderEvent', newEvent, true);
 	});
 
 
