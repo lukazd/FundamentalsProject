@@ -5,7 +5,7 @@ var main = function() {
 	var projectName = Parse.User.current().get("projectName");
 	var userRole = "Team Member";
 	//var projectName = "Default Project Name";
-	var selecteProcessModel = "Use the questionnaire below to help you select a process model";
+	var selectedProcessModel = "Use the questionnaire below to help you select a process model";
 	
 	$('#projectnameheader').text(projectName);
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
@@ -324,16 +324,52 @@ var main = function() {
 			// put your options and callbacks here
 	})
 	
+	// Executing code to add an event to the calendar and/or push it to the database
 	$('#addeventbutton').click(function() {
+		var verified = false;
+		var startDate = new Date($('#startdate').val());
+		var name = "meeting";	// This is a placeholder, change this
+		var description = $('#eventdescription').val();
+		
+		if(userRole == "Team Leader") {
+			verified = true;
+		}
+		
 		var projectCalendar = $('#calendar');
 		projectCalendar.fullCalendar();
 		var newEvent = {
-			title: $('#eventdescription').val(),
+			title: name + ' (' + description + ')',
 			allDay: true,
 			start: new Date($('#startdate').val())
-			//start: new Date()
 		};
-		projectCalendar.fullCalendar('renderEvent', newEvent, true);
+		
+
+		// Create the new row and set its fields
+		var CalendarEvent = Parse.Object.extend("CalendarEvent");
+		var calendarEvent = new CalendarEvent();
+		calendarEvent.set("startDate", startDate);
+		calendarEvent.set("name", name);
+		calendarEvent.set("description", description);
+		calendarEvent.set("verified", verified);
+		
+		// Save the object to the database
+		calendarEvent.save(null, {
+			success: function(calendarEvent) {
+				// Add the event to the calendar only if it has been verified
+				if(verified == true) {
+					projectCalendar.fullCalendar('renderEvent', newEvent, true);
+					alert('A new calendar event has been created');
+				}
+				else {
+					alert('A new calendar event has been submitted for approval');
+				}
+			},
+			error: function(calendarEvent, error) {
+				// Event was not successfully added to the database
+				alert('Failed to create the calendar event!');
+			}
+		});
+		
 	});
 
 
