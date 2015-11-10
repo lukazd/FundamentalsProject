@@ -13,8 +13,8 @@ var main = function() {
 
 				if (Parse.User.current().get("emailVerified") == true)
 					{
-						var value = Parse.User.current().get("isTeamAdmin")
-						alert(value);
+						// var value = Parse.User.current().get("isTeamAdmin")
+						// alert(value);
 						
 						if(Parse.User.current().get("isTeamAdmin") == true){
 							$('<p>').text(Parse.User.current().get("isTeamAdmin")).appendTo('form');

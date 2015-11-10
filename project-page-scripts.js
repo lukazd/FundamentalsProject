@@ -2,7 +2,8 @@ var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
-	var projectName = Parse.User.current().get("projectName");
+	// var projectName = Parse.User.current().get("projectName");
+	var projectName = window.location.hash.substring(1);
 	var userRole = "Team Member";
 	//var projectName = "Default Project Name";
 	var selectedProcessModel = "Use the questionnaire below to help you select a process model";
@@ -22,22 +23,22 @@ var main = function() {
 	
 	var currentAnswerResults;
 
-	var Projects = Parse.Object.extend("Projects");
-	var query = new Parse.Query(Projects);
-	query.find({
-		success: function(results) {
-			for(var i in results) {
-				if(results[i].get("assignedTeam") === teamName) {
-					projectName = results[i].get("projectName");
-					$('#projectnameheader').text(projectName);
-					if(results[i].get("processModel") !== null) {
-						selectedProcessModel = results[i].get("processModel");
-						$('#processmodelheader').text(selectedProcessModel);
-					}
-				}
-			}
-		}
-	});
+	// var Projects = Parse.Object.extend("Projects");
+	// var query = new Parse.Query(Projects);
+	// query.find({
+	// 	success: function(results) {
+	// 		for(var i in results) {
+	// 			if(results[i].get("assignedTeam") === teamName) {
+	// 				projectName = results[i].get("projectName");
+	// 				$('#projectnameheader').text(projectName);
+	// 				if(results[i].get("processModel") !== null) {
+	// 					selectedProcessModel = results[i].get("processModel");
+	// 					$('#processmodelheader').text(selectedProcessModel);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// });
 	
 	// Get the Calendar events in the database
 	var CalendarEvent = Parse.Object.extend("CalendarEvent");

@@ -59,12 +59,16 @@ var main = function() {
 	var teamName = Parse.User.current().get("teamName");
 	var Projects = Parse.Object.extend("Projects");
 	var query = new Parse.Query(Projects);
-	query.equalTo("assignedTeam", teamName);
+	query.equalTo("teamName", teamName);
 	query.find({
 		success: function(results){
 			for(var i = 0; i < results.length; i++){
 				//display all projects found for that team
-				$('<li>').text(results[i].get("projectName")).appendTo("#projectlistholder");
+				currProjectName = results[i].get("projectName");
+				$('<li>').text(currProjectName).appendTo("#projectlistholder")
+					.click(function() {
+						window.location.href = "project-page.html" + "#" + currProjectName;
+					});
 			}
 		}
 	});
