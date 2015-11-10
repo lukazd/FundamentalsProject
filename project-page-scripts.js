@@ -23,22 +23,21 @@ var main = function() {
 	
 	var currentAnswerResults;
 
-	// var Projects = Parse.Object.extend("Projects");
-	// var query = new Parse.Query(Projects);
-	// query.find({
-	// 	success: function(results) {
-	// 		for(var i in results) {
-	// 			if(results[i].get("assignedTeam") === teamName) {
-	// 				projectName = results[i].get("projectName");
-	// 				$('#projectnameheader').text(projectName);
-	// 				if(results[i].get("processModel") !== null) {
-	// 					selectedProcessModel = results[i].get("processModel");
-	// 					$('#processmodelheader').text(selectedProcessModel);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// });
+	// Grab the process model for the project if it exists
+	var Projects = Parse.Object.extend("Projects");
+	var query = new Parse.Query(Projects);
+	query.find({
+	 	success: function(results) {
+	 		for(var i in results) {
+	 			if(results[i].get("assignedTeam") === teamName) {
+	 				if(results[i].get("processModel") !== null) {
+	 					selectedProcessModel = results[i].get("processModel");
+	 					$('#processmodelheader').text(selectedProcessModel);
+	 				}
+	 			}
+	 		}
+	 	}
+	 });
 	
 	// Get the Calendar events in the database
 	var CalendarEvent = Parse.Object.extend("CalendarEvent");
