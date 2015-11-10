@@ -58,51 +58,10 @@
 
     </script>
     <!-- Link to JavaScript -->
-    <script src="change-leader.js"></script>
+    <script src="change-members.js"></script>
   </head>
 
   <body>
-
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    
-                    <li>
-                        <a href="project-page.html">Projects</a>
-                    </li>
-                    <li>
-                        <a href="change-leader.html">Change leaders</a>
-                    </li>
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>
-                    <li>
-                        <button type="submit" class="btn" id="logoutbutton">Log Out</button>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
     <div class="header">
       <div class="container">
 			<img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
@@ -115,32 +74,66 @@
       			<div class="col-md-7">
 	        		<h1>change Leader:</h1>
 			        <form role="form">
-                  <div class="form-group">
-                    <label for="inputUsername">current team Members:</label>
-                    <h3 id='teamLeaderName'>Name Not Found</h3>
-                    
+                   <div class="teamsection"> 
+                      <div class="container"> 
+                        <h3>Designer:</h3> 
+                            <ul class="team-members">
+                             <li>
+                                <div id="Designerlist"></div>
+                            </li>
+
+                        
+                            </ul>
+                      </div> 
+
+                      <div class="container"> 
+                        <h3>Coder:</h3> 
+                            <ul class="team-members">
+                             <li>
+                                <div id="Coderlist"></div>
+                            </li>
+
+                        
+                            </ul>
+                      </div> 
+
+                      <div class="container"> 
+                        <h3>Tester:</h3> 
+                            <ul class="team-members">
+                             <li>
+                                <div id="Testerlist"></div>
+                            </li>
+
+                        
+                            </ul>
+                      </div> 
+
                   </div>
-			          	<div class="form-group">
-			            	<label for="inputFirstName">enter new leader:</label>
-			            	<input type="text" class="form-control" id="inputTeamLeader">
+	 		          	<div class="form-group">
+			            	<label for="inputFirstName">enter new Designer:</label>
+			            	<input type="text" class="form-control" id="inputname">
                      <h3 id='teamLeaderName1'></h3>
 			          	</div>
-			          	<div>
-			          	<button type="submit"  class="btn" id="signupbutton">Save</button>
-			        </form>
-               <form role="form">
+                    <button type="submit"  class="btn" id="savebutton">Save</button>
+                </form>
+                  <form>
                   <div class="form-group">
-                    <label for="inputUsername">current team Admin:</label>
-                    <h3 id='teamAdminName'>Name Not Found</h3>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputFirstName">enter new admin:</label>
-                    <input type="text" class="form-control" id="inputTeamAdmin">
+                    <label for="inputFirstName">enter new Coder:</label>
+                    <input type="text" class="form-control" id="inputname">
                      <h3 id='teamLeaderName1'></h3>
                   </div>
-                  <div>
-                  <button type="submit"  class="btn" id="signupbutton2">Save</button>
-              </form>
+                    <button type="submit"  class="btn" id="savebutton2">Save</button>
+                </form>
+                <form>
+                  <div class="form-group">
+                    <label for="inputFirstName">enter new Tester:</label>
+                    <input type="text" class="form-control" id="inputname">
+                     <h3 id='teamLeaderName1'></h3>
+                  </div>
+			          	<div>
+			          	<button type="submit"  class="btn" id="savebutton3">Save</button>
+			        </form>
+               
 
 		    	 </div>
     		  </div>

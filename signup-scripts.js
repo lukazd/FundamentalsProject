@@ -39,6 +39,7 @@ var main = function() {
 		var password = $('#inputPassword').val();
 		var confirmPassword = $('#confirmPassword').val();
 		var role = $('#selectRole').val();
+		var roleinteam = $('#selectRoleinTeam').val();
 		var roleCode = $('#roleCode').val();
 		var gender = $('#selectGender').val();
 		var dob = $('#dob').val();
@@ -95,6 +96,18 @@ var main = function() {
 				user.set("isTeamLeader", "false");
 				user.set("isTeamAdmin", "true");
 				user.set("userCode" , 1234);
+			}
+			if(roleinteam == "Designer"){
+				user.set("RoleinTeam", "Designer");
+			
+			}
+
+			else if(roleinteam == "Coder"){
+				user.set("RoleinTeam", "coder");
+			
+			}
+			else if(roleinteam == "Tester"){
+				user.set("RoleinTeam", "Tester");
 			}
 
 			user.set("gender", gender);

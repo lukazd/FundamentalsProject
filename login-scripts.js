@@ -14,19 +14,26 @@ var main = function() {
 				if (Parse.User.current().get("emailVerified") == true)
 					{
 						var value = Parse.User.current().get("isTeamAdmin")
-						$('<p>').text(value).appendTo('form');
+						alert(value);
 						
-						if(Parse.User.current().get("isTeamAdmin")){
-							
+						if(Parse.User.current().get("isTeamAdmin") == true){
+							$('<p>').text(Parse.User.current().get("isTeamAdmin")).appendTo('form');
 							window.location = "admin-page.html";
 							
 						}
-						else{
-
+						 if(Parse.User.current().get("isTeamLeader") == true){
+							alert(Parse.User.current().get("isTeamLeader"));
 							$('<p>').text("neopee").appendTo('form');
 
+							window.location = "leader-page.html";
+				
+						}
+						else{
+
+							//$('<p>').text("neopee").appendTo('form');
+
 							window.location = "landing-page.html";
-							
+				
 						}
 						
 						
