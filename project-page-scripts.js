@@ -348,53 +348,56 @@ var main = function() {
 	
 	// Executing code to add an event to the calendar and/or push it to the database
 	$('#addeventbutton').click(function() {
-		var verified = false;
-		var startDate = new Date($('#startdate').val());
-		var endDate = new Date($('#enddate').val());
-		var name = "meeting";	// This is a placeholder, change this
-		var description = $('#eventdescription').val();
+		if (confirm('Are you sure you want to create this event?')) {
 		
-		if(endDate >= startDate) {
-			if(userRole == "Team Leader") {
-				verified = true;
-			}
+			var verified = false;
+			var startDate = new Date($('#startdate').val());
+			var endDate = new Date($('#enddate').val());
+			var name = "meeting";	// This is a placeholder, change this
+			var description = $('#eventdescription').val();
 		
-			var projectCalendar = $('#calendar');
-			projectCalendar.fullCalendar();
-			var newEvent = {
-				title: name + ' (' + description + ')',
-				allDay: true,
-				start: startDate,
-				end: endDate
-			};
+			if(endDate >= startDate) {
+				if(userRole == "Team Leader") {
+					verified = true;
+				}
+			
+				var projectCalendar = $('#calendar');
+				projectCalendar.fullCalendar();
+				var newEvent = {
+					title: name + ' (' + description + ')',
+					allDay: true,
+					start: startDate,
+					end: endDate
+				};
 		
 
 			// Create the new row and set its fields
-			var CalendarEvent = Parse.Object.extend("CalendarEvent");
-			var calendarEvent = new CalendarEvent();
-			calendarEvent.set("startDate", startDate);
-			calendarEvent.set("endDate", endDate);
-			calendarEvent.set("name", name);
-			calendarEvent.set("description", description);
-			calendarEvent.set("verified", verified);
+				var CalendarEvent = Parse.Object.extend("CalendarEvent");
+				var calendarEvent = new CalendarEvent();
+				calendarEvent.set("startDate", startDate);
+				calendarEvent.set("endDate", endDate);
+				calendarEvent.set("name", name);
+				calendarEvent.set("description", description);
+				calendarEvent.set("verified", verified);
 		
-			// Save the object to the database
-			calendarEvent.save(null, {
-				success: function(calendarEvent) {
-					// Add the event to the calendar only if it has been verified
-					if(verified == true) {
-						projectCalendar.fullCalendar('renderEvent', newEvent, true);
-						alert('A new calendar event has been created');
+				// Save the object to the database
+				calendarEvent.save(null, {
+					success: function(calendarEvent) {
+						// Add the event to the calendar only if it has been verified
+						if(verified == true) {
+							projectCalendar.fullCalendar('renderEvent', newEvent, true);
+							alert('A new calendar event has been created');
+						}
+						else {
+							alert('A new calendar event has been submitted for approval');
+						}
+					},
+					error: function(calendarEvent, error) {
+						// Event was not successfully added to the database
+						alert('Failed to create the calendar event!');
 					}
-					else {
-						alert('A new calendar event has been submitted for approval');
-					}
-				},
-				error: function(calendarEvent, error) {
-					// Event was not successfully added to the database
-					alert('Failed to create the calendar event!');
-				}
-			});
+				});
+			}
 		}
 		
 	});
