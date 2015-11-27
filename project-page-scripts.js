@@ -353,7 +353,7 @@ var main = function() {
 			var verified = false;
 			var startDate = new Date($('#startdate').val());
 			var endDate = new Date($('#enddate').val());
-			var name = "meeting";	// This is a placeholder, change this
+			var name = $('#sel1').find("option:selected").text();
 			var description = $('#eventdescription').val();
 		
 			if(endDate >= startDate) {

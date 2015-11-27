@@ -155,18 +155,17 @@
 		<div class="calender-header">
 			<h1>Calendar</h1>
 		</div>
-		<div class="dropdown">
-			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-				Events
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" id = "eventlistdropdown">
-				<li><a href="#" onclick="event.preventDefault();">Iteration</a></li>
-				<li><a href="#" onclick="event.preventDefault();">Meeting</a></li>
-				<li><a href="#" onclick="event.preventDefault();">Some 3rd choice</a></li>
-			</ul>
-		</div>
 		<div id="createcalendarevent">
+			 <div class="form-group">
+  				<label for="sel1">Event Type</label>
+  				<select class="form-control" id="sel1">
+    				<option>Meeting</option>
+    				<option>Iteration</option>
+    				<option>Review</option>
+    				<option>Demo</option>
+    				<option>Other</option>
+  				</select>
+			</div>
 			<div class="form-group">
 				<label for="eventdescription">Event Description</label>
 				<input type="text" id="eventdescription" class="form-control" placeholder="e.g. standup" aria-describedby="basic-addon1">
@@ -185,7 +184,9 @@
 			</div>
 			<button type="button" class="btn btn-default" id="addeventbutton">Add Event</button>
 		</div>
-		<div id='calendar'></div>
+		<div id='calendar-container'>
+			<div id='calendar'></div>
+		</div>
 	</div>
 	
 </div>
