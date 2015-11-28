@@ -4,11 +4,12 @@ var main = function() {
 
 	// var projectName = Parse.User.current().get("projectName");
 	var projectName = window.location.hash.substring(1);
+	var teamName = Parse.User.current().get("teamName");
 	var userRole = "Team Member";
-	//var projectName = "Default Project Name";
 	var selectedProcessModel = "Use the questionnaire below to help you select a process model";
 	
 	$('#projectnameheader').text(projectName);
+	
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
 	var currentQuestion = 0;
 	
@@ -26,41 +27,52 @@ var main = function() {
 	// Grab the process model for the project if it exists
 	var Projects = Parse.Object.extend("Projects");
 	var query = new Parse.Query(Projects);
+	query.equalTo("projectName", projectName);
+	query.equalTo("teamName", teamName);
 	query.find({
 	 	success: function(results) {
 	 		for(var i in results) {
-	 			if(results[i].get("assignedTeam") === teamName) {
-	 				if(results[i].get("processModel") !== null) {
-	 					selectedProcessModel = results[i].get("processModel");
-	 					$('#processmodelheader').text(selectedProcessModel);
-	 				}
+	 			if(results[i].get("processModel") !== null) {
+	 				selectedProcessModel = results[i].get("processModel");
+	 				$('#processmodelheader').text(selectedProcessModel);
 	 			}
 	 		}
-	 	}
+	 	},
+	 	error: function(error) {
+			alert("Could not retrieve process model information");
+		}
 	 });
 	
 	// Get the Calendar events in the database
 	var CalendarEvent = Parse.Object.extend("CalendarEvent");
 	var query = new Parse.Query(CalendarEvent);
+	query.equalTo("projectName", projectName);
+	query.equalTo("teamName", teamName);
 	query.find({
 		success: function(results) {
 			var projectCalendar = $('#calendar');
 			projectCalendar.fullCalendar();
 			
-			for(var i in results) {
+			// Add the retrieved dates to the calendar
+			for (var i = 0; i < results.length; i++) {
 				if(results[i].get("verified")) {
 					var newEvent = {
 						title: results[i].get("name") + ' (' + results[i].get("description") + ')',
 						allDay: true,
 						start: results[i].get("startDate"),
-						end: results[i].get("endDate")
+						end: results[i].get("endDate"),
+						id: results[i].id
 					};	
 					projectCalendar.fullCalendar('renderEvent', newEvent, true);
 				}
 			}
+		},
+		error: function(error) {
+			alert("Could not retrieve calendar event information");
 		}
 	});
 	
+	// Find the user role
 	if( Parse.User.current().get("isTeamLeader") == "true" ) {
 		userRole = "Team Leader";
 	}
@@ -71,18 +83,17 @@ var main = function() {
 	//$('#name').text(firstName + " " + lastName);
 	//$('#user-role').text(userRole);
 
+	// Log Out functionality
 	$('#logoutbutton').click(function() {
 		Parse.User.logOut();
-
 		window.location = "index.html";
-
 		return false;
 	});
 	
 	// Remove the questionnaire and process selector for non team leaders
-	if(!(userRole === "Team Leader")) {
+	if(!(userRole === "Team Leader") || Parse.User.current().get("canAnswerQuestionnaire") == false) {
 		$('.questionnaire').remove();
-		$('#processmodeldiv').remove();
+		$('#processmodeldropdown').remove();
 	}
 
 	// Save the process model chosen to the database
@@ -296,13 +307,6 @@ var main = function() {
 		
 	}); 
 
-	//get the current users team name to make a query to find all other users with that team name
-	var teamName = Parse.User.current().get("teamName");
-
-
-	//get the user's teamName so we can query the Projects table to find all projects
-	//that that team is working on
-	var teamName = Parse.User.current().get("teamName");
 	var Projects = Parse.Object.extend("Projects");
 	var query = new Parse.Query(Projects);
 	query.equalTo("assignedTeam", teamName);
@@ -315,6 +319,7 @@ var main = function() {
 		}
 	});
 
+	// Get Team Information
 	var User = Parse.Object.extend("_User");
 	var query = new Parse.Query(User);
 	query.equalTo("teamName", teamName);
@@ -343,13 +348,51 @@ var main = function() {
 	
 	// Initialize the calendar
 	$('#calendar').fullCalendar({
-			// put your options and callbacks here
+	
+		// Delete event on click
+		eventClick: function(calEvent, jsEvent, view)
+        {
+            if (confirm("Delete " + calEvent.title))
+            {
+            	var CalendarEvent = Parse.Object.extend("CalendarEvent");
+				var calendarEvent = new Parse.Query(CalendarEvent);
+				calendarEvent.equalTo("objectId", calEvent._id);
+				calendarEvent.find({
+					success: function(result) {
+						if(userRole === "Team Leader") {
+							result[0].destroy({
+                				success: function(result) {
+                    				$('#calendar').fullCalendar('removeEvents', calEvent._id);
+                    				alert("Calendar event has been successfully deleted");
+                				},
+                				error: function(result, error) {
+                    				alert("Failed to delete event");
+                				}
+            				});
+            			}
+            			else {
+            				result.set("toBeDeleted", true);
+            				result.save(null, {
+            					success: function(result) {
+            						alert("Calendar event deletion submitted for approval");
+            					},
+            					error: function(result, error) {
+            						alert("Failed to delete event");
+            					}
+            				});
+            			}
+					},
+					error: function(error) {
+						alert("Failed to delete event");
+					}
+				});
+            }
+        }
 	})
 	
 	// Executing code to add an event to the calendar and/or push it to the database
 	$('#addeventbutton').click(function() {
 		if (confirm('Are you sure you want to create this event?')) {
-		
 			var verified = false;
 			var startDate = new Date($('#startdate').val());
 			var endDate = new Date($('#enddate').val());
@@ -359,19 +402,19 @@ var main = function() {
 			if(endDate >= startDate) {
 				if(userRole == "Team Leader") {
 					verified = true;
-				}
+			}
 			
-				var projectCalendar = $('#calendar');
-				projectCalendar.fullCalendar();
-				var newEvent = {
-					title: name + ' (' + description + ')',
-					allDay: true,
-					start: startDate,
-					end: endDate
-				};
+			var projectCalendar = $('#calendar');
+			projectCalendar.fullCalendar();
+			var newEvent = {
+				title: name + ' (' + description + ')',
+				allDay: true,
+				start: startDate,
+				end: endDate
+			};
 		
 
-			// Create the new row and set its fields
+				// Create the new row and set its fields
 				var CalendarEvent = Parse.Object.extend("CalendarEvent");
 				var calendarEvent = new CalendarEvent();
 				calendarEvent.set("startDate", startDate);
@@ -379,11 +422,15 @@ var main = function() {
 				calendarEvent.set("name", name);
 				calendarEvent.set("description", description);
 				calendarEvent.set("verified", verified);
+				calendarEvent.set("teamName", teamName);
+				calendarEvent.set("projectName", projectName);
+				calendarEvent.set("toBeDeleted", false);
 		
 				// Save the object to the database
 				calendarEvent.save(null, {
-					success: function(calendarEvent) {
+					success: function(result) {
 						// Add the event to the calendar only if it has been verified
+						newEvent.id = result.id;
 						if(verified == true) {
 							projectCalendar.fullCalendar('renderEvent', newEvent, true);
 							alert('A new calendar event has been created');
@@ -392,7 +439,7 @@ var main = function() {
 							alert('A new calendar event has been submitted for approval');
 						}
 					},
-					error: function(calendarEvent, error) {
+					error: function(result, error) {
 						// Event was not successfully added to the database
 						alert('Failed to create the calendar event!');
 					}
