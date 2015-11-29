@@ -13,22 +13,22 @@ var main = function() {
 
 				if (Parse.User.current().get("emailVerified") == true)
 					{
-						// var value = Parse.User.current().get("isTeamAdmin")
-						// alert(value);
+
 						
-						if(Parse.User.current().get("isTeamAdmin") == true){
-							$('<p>').text(Parse.User.current().get("isTeamAdmin")).appendTo('form');
+						if(Parse.User.current().get("isTeamAdmin") == "true"){
+							//$('<p>').text(Parse.User.current().get("isTeamAdmin")).appendTo('form');
 							window.location = "admin-page.html";
 							
 						}
-						 if(Parse.User.current().get("isTeamLeader") == true){
-							alert(Parse.User.current().get("isTeamLeader"));
-							$('<p>').text("neopee").appendTo('form');
+
+						else if(Parse.User.current().get("isTeamLeader") == "true"){
+							//alert(Parse.User.current().get("isTeamLeader"));
+							//$('<p>').text("neopee").appendTo('form');
 
 							window.location = "leader-page.html";
 				
 						}
-						else{
+						else if(Parse.User.current().get("isTeamMember") == "true"){
 
 							//$('<p>').text("neopee").appendTo('form');
 

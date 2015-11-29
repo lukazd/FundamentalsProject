@@ -20,7 +20,18 @@ var main = function() {
 						var lastName = object.get('lastName');
 
 						$('#teamLeaderName').text(firstName + " "+ lastName + '    ' + "("+ username + ")");
-
+						var x = document.getElementById("SelectLeader");
+						var y = document.getElementById("SelectAdmin");
+						
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Leader)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Leader)";
+						
+						x.add(option1);
+						y.add(option2);
+						
 					}
 					if (results[i].get("isTeamAdmin") == "true"){
 						var object = results[i];
@@ -29,6 +40,39 @@ var main = function() {
 						var lastName = object.get('lastName');
 					
 						$('#teamAdminName').text(firstName + " "+ lastName + '    ' + "("+ username + ")");
+						var x = document.getElementById("SelectLeader");
+						var y = document.getElementById("SelectAdmin");
+						
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Admin)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Admin)";
+						
+						x.add(option1);
+						y.add(option2);
+
+					}
+
+					if (results[i].get("isTeamMember") == "true"){
+						var object = results[i];
+						var username = object.get("username");
+						var firstName = object.get('firstName');
+						var lastName = object.get('lastName');
+					
+						$('#teamAdminName').text(firstName + " "+ lastName + '    ' + "("+ username + ")");
+						var x = document.getElementById("SelectLeader");
+						var y = document.getElementById("SelectAdmin");
+						
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Member)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Member)";
+						
+						x.add(option1);
+						y.add(option2);
+						
 					}
 			
 			}		

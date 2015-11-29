@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
   <head>
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-   	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
     <!-- Parse -->
@@ -105,46 +105,52 @@
 
     <div class="header">
       <div class="container">
-			<img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
+      <img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
       </div>
     </div>
 
     <div class="main">
-      	<div class="container">
-      		<div class = "row">
-      			<div class="col-md-7">
-	        		<h1>Change Leader:</h1>
-			        <form role="form">
+        <div class="container">
+          <div class = "row">
+            <div class="col-md-7">
+              <h1>Change Leader:</h1>
+              <form role="form">
                   <div class="form-group">
                     <label for="inputUsername">Current Team Leader:</label>
                     <h3 id='teamLeaderName'>Name Not Found</h3>
                     
                   </div>
-			          	<div class="form-group">
-			            	<label for="inputFirstName">Enter New Leader:</label>
-			            	<input type="text" class="form-control" id="inputTeamLeader">
-                     <h3 id='teamLeaderName1'></h3>
-			          	</div>
-			          	<div>
-			          	<button type="submit"  class="btn" id="signupbutton">Save</button>
-			        </form>
+                  <div class="form-group">
+
+                    <label for="selectRoleinTeam">Select Team Leader:</label>
+                    <select class="form-control" id="SelectLeader">
+                      
+                    </select>
+                  </div>
+
+                  <div>
+                  <button type="submit"  class="btn" id="signupbutton">Save</button>
+              </form>
                <form role="form">
                   <div class="form-group">
                     <label for="inputUsername">Current Team Admin:</label>
                     <h3 id='teamAdminName'>Name Not Found</h3>
                   </div>
                   <div class="form-group">
-                    <label for="inputFirstName">Enter New Admin:</label>
-                    <input type="text" class="form-control" id="inputTeamAdmin">
-                     <h3 id='teamLeaderName1'></h3>
+
+                    <label for="selectRoleinTeam">Select Team Admin:</label>
+                    <select class="form-control" id="SelectAdmin">
+                      
+                    </select>
+
                   </div>
                   <div>
                   <button type="submit"  class="btn" id="signupbutton2">Save</button>
               </form>
 
-		    	 </div>
-    		  </div>
-      	</div>
+           </div>
+          </div>
+        </div>
     </div>
 
     

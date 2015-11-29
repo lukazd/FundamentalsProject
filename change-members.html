@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
   <head>
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-   	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
     <!-- Parse -->
@@ -11,48 +11,7 @@
     <link rel="stylesheet" type="text/css" href="signup-style.css">
     <!-- jQuery -->
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2'>
-    /*Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
-    "eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
-
-
-    function updateLeader(){
-
-      var projectName = Parse.User.current().get("projectName");
-
-      var user= Parse.Object.extend("User");
-      //$('<p>').text("yess").appendTo('form');
-      var query = new Parse.Query(user);
-      query.equalTo("projectName", projectName);
-
-      query.find({
-      success: function(results){
-        alert("inn");
-        for(var i = 0; i < results.length; i++){
-          if (results[i].get("isTeamLeader")){
-            alert("found");
-            $('#teamLeaderName').text(results[i].get("username"));
-          }
-        }
-      }
-     });
-      var user2= Parse.Object.extend("User");
-      //$('<p>').text("yess").appendTo('form');
-      var query = new Parse.Query(user2);
-      query.equalTo("username", "tony");
-      alert("quesry");
-      query.first({
-      success: function (user1) {
-        for(var i = 0; i < user1.length; i++){
-          alert("Successfully retrieved " + user1[i]+ "username");
-            user1.set("isTeamLeader", "true")
-            user1.save();
-        }},
-      error: function(error) {
-          alert("Error: " + error.code + " " + error.message);
-           }
-      });
-
-    }*/
+    
 
 
 
@@ -62,18 +21,63 @@
   </head>
 
   <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li>
+                        <a href="project-page.html">Projects</a>
+                    </li>
+                    <li>
+                        <a href="notification-page.html">Notifications</a>
+                    </li>
+                    <li>
+                        <a href="change-members.html">Change Members</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                    <li>
+                        <button type="submit" class="btn" id="logoutbutton">Log Out</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
     <div class="header">
       <div class="container">
-			<img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
+      <img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
       </div>
     </div>
 
     <div class="main">
-      	<div class="container">
-      		<div class = "row">
-      			<div class="col-md-7">
-	        		<h1>Change Member Roles:</h1>
-			        <form role="form">
+        <div class="container">
+          <div class = "row">
+            <div class="col-md-7">
+              <h1>Change Member Roles:</h1>
+              <form role="form">
                    <div class="teamsection"> 
                       <div class="container"> 
                         <h3>Designer:</h3> 
@@ -109,35 +113,38 @@
                       </div> 
 
                   </div>
-	 		          	<div class="form-group">
-			            	<label for="inputFirstName">enter new Designer:</label>
-			            	<input type="text" class="form-control" id="inputname">
-                     <h3 id='teamLeaderName1'></h3>
-			          	</div>
+                  <div class="form-group">
+                    <label for="selectRoleinTeam">Select Designer</label>
+                    <select class="form-control" id="SelectDesigner">
+                      
+                    </select>
+                  </div>
                     <button type="submit"  class="btn" id="savebutton">Save</button>
                 </form>
                   <form>
                   <div class="form-group">
-                    <label for="inputFirstName">enter new Coder:</label>
-                    <input type="text" class="form-control" id="inputname">
-                     <h3 id='teamLeaderName1'></h3>
+                    <label for="selectRoleinTeam">Select Tester</label>
+                    <select class="form-control" id="SelectTester">
+                      
+                    </select>
                   </div>
                     <button type="submit"  class="btn" id="savebutton2">Save</button>
                 </form>
                 <form>
-                  <div class="form-group">
-                    <label for="inputFirstName">enter new Tester:</label>
-                    <input type="text" class="form-control" id="inputname">
-                     <h3 id='teamLeaderName1'></h3>
+                 <div class="form-group">
+                    <label for="selectRoleinTeam">Select Coder</label>
+                    <select class="form-control" id="SelectCoder">
+                      
+                    </select>
                   </div>
-			          	<div>
-			          	<button type="submit"  class="btn" id="savebutton3">Save</button>
-			        </form>
+                  <div>
+                  <button type="submit"  class="btn" id="savebutton3">Save</button>
+              </form>
                
 
-		    	 </div>
-    		  </div>
-      	</div>
+           </div>
+          </div>
+        </div>
     </div>
 
     

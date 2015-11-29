@@ -24,7 +24,21 @@ var main = function() {
 						var lastName = object.get('lastName');
 						var username = object.get('username') ;
 						$('<li>').text(firstName+ " "+ lastName + " " + "(" + username + ")").appendTo('#Designerlist');
+						
+						var x = document.getElementById("SelectDesigner");
+						var y = document.getElementById("SelectCoder");
+						var z = document.getElementById("SelectTester");
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						var option3 = document.createElement("option");
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Designer)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Designer)";
+						option3.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Curret Role: Designer)";
 
+						x.add(option1);
+						y.add(option2);
+						z.add(option3);
+						
 
 					}
 					//testers
@@ -36,7 +50,19 @@ var main = function() {
 						var lastName = object.get('lastName');
 						var username = object.get('username') ;
 						$('<li>').text(firstName+ " "+ lastName+ " " + "(" + username + ")").appendTo('#Testerlist');
+						var x = document.getElementById("SelectDesigner");
+						var y = document.getElementById("SelectCoder");
+						var z = document.getElementById("SelectTester");
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						var option3 = document.createElement("option");
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(current Role: Tester)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Tester)";
+						option3.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Tester)";
 
+						x.add(option1);
+						y.add(option2);
+						z.add(option3);
 
 					}
 					//coders
@@ -48,7 +74,19 @@ var main = function() {
 						var lastName = object.get('lastName');
 						var username = object.get('username') ;
 						$('<li>').text(firstName+ " "+ lastName+ " " + "(" + username + ")").appendTo('#Coderlist');
-
+						
+						var x = document.getElementById("SelectDesigner");
+						var y = document.getElementById("SelectCoder");
+						var z = document.getElementById("SelectTester");
+						var option1 = document.createElement("option");
+						var option2 = document.createElement("option");
+						var option3 = document.createElement("option");
+						option1.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Coder)";
+						option2.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Coder)";
+						option3.text = firstName + " "+ lastName + " " + "(" + username + ")" + " " + "(Current Role: Coder)";
+						x.add(option1);
+						y.add(option2);
+						z.add(option3);
 
 					}
 					
