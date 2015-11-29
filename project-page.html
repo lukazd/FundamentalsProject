@@ -136,21 +136,21 @@
 		
 		<!-- Questionnaire Body -->
 		<button type="button" class="btn btn-default" id="finishsurveybutton">Finish Survey</button>
+		<button type="button" id="restartSurveyButton" class="btn btn-default">Restart Survey</button>
 		<h2>Question</h2>
 		<p id="questiontext">Questions will appear here when a category is selected.</p>
 		<div class="dropdown">
-			<button type="button" class="btn btn-default btn-arrow-left">Prev</button>
 			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
 				Answer Choices
 				<span class="caret"></span>
 			</button>
-			<button type="button" class="btn btn-default btn-arrow-right">Next</button>
 			<ul class="dropdown-menu" id = "answerlistdropdown">
 				<li><a href="#">Answer Choice 1</a></li>
 				<li><a href="#">Answer Choice 2</a></li>
 				<li><a href="#">Answer Choice 3</a></li>
 			</ul>
 		</div>
+		<h3 id="recommendedProcessModelHeader"></h3>
 	</div>
 	<!-- End Questionnaire -->
 	
@@ -167,6 +167,9 @@
     				<option>Iteration</option>
     				<option>Review</option>
     				<option>Demo</option>
+    				<option>Outing</option>
+    				<option>Trip</option>
+    				<option>Release</option>
     				<option>Other</option>
   				</select>
 			</div>
@@ -175,12 +178,12 @@
 				<input type="text" id="eventdescription" class="form-control" placeholder="e.g. standup" aria-describedby="basic-addon1">
 			</div>
 			<div class="form-group">
-				<label for="startdate">Start Date (mm/dd/yyyy)</label>
-				<input type="date" id="startdate" class="form-control" aria-describedby="basic-addon1">
+				<label for="startdate">Start Date</label>
+				<input type="date" id="startdate" class="form-control" placeholder="mm/dd/yyyy" aria-describedby="basic-addon1">
 			</div>
 			<div class="form-group">
-				<label for="enddate">End Date (Optional) (mm/dd/yyyy)</label>
-				<input type="date" id="enddate" class="form-control" aria-describedby="basic-addon1">
+				<label for="enddate">End Date</label>
+				<input type="date" id="enddate" class="form-control" placeholder="mm/dd/yyyy" aria-describedby="basic-addon1">
 			</div>
 			<div class="form-group">
 				<label for="starttime">Start Time</label>
