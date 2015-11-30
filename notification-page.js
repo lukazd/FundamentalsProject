@@ -19,8 +19,14 @@ var main = function() {
 				var object = results[i];
 				//get the fields for each team member found
 				var description = object.get('description');
+				var deleting = object.get('toBeDeleted');
 				var status = object.get('verified');
-				$('<li>').text(description+ ""+ status).appendTo('#teamlistholder');
+				if(deleting) {
+					$('<li>').text("Deleting event: " + description+ ""+ status).appendTo('#teamlistholder');
+				}
+				else {
+					$('<li>').text("Adding event: " + description+ ""+ status).appendTo('#teamlistholder');
+				}
 			}
 		},
 		error: function(error) {
@@ -71,6 +77,10 @@ var main = function() {
 					var object = results[i]
 					//alert(object);
 					object.set("verified", true);
+					var deleting = object.get('toBeDeleted');
+					if(deleting) {
+						object.destroy();
+					}
 					object.save();
 					
 
