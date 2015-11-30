@@ -198,7 +198,7 @@ var main = function() {
 						currentAnswerResults = answerResults;
 						for(var i = 0; i < answerResults.length; i++){
 						//display all answers found for that question
-							$("#answerlistdropdown").append('<li><a href="#" id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
+							$("#answerlistdropdown").append('<li><a id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
 							//$("#answerlistdropdown").append('<li><a href="#">'+ answerResults[i].get("text")+'</a></li>');
 						}
 					}
@@ -219,6 +219,7 @@ var main = function() {
 		answerQuery.equalTo("answerId", idNumber);
 		answerQuery.equalTo("questionId", currentQuestionId);
 		
+		/*
 		var UserAnswer = Parse.Object.extend("UserAnswer");
 		var userAnswer = new UserAnswer();
 		userAnswer.set("teamName", teamName);
@@ -226,6 +227,7 @@ var main = function() {
 		userAnswer.set("questionId", currentQuestionId);
 		userAnswer.set("answerId", idNumber);
 		userAnswer.save();
+		*/
 
 		answerQuery.find({
 			success: function(answer) {
@@ -259,7 +261,7 @@ var main = function() {
 				success: function(answerResults){
 					for(var i = 0; i < answerResults.length; i++){
 						//display all answers found for that question
-						$("#answerlistdropdown").append('<li><a href="#" id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');											
+						$("#answerlistdropdown").append('<li><a id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');											
 					}
 				}
 			});
