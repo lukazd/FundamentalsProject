@@ -89,6 +89,7 @@
                         <!-- get user's name here -->
                         <h3 id='name'>Name Not Found</h3>
                         <h3 id='user-role'>Role Not Found</h3>
+                        <h3 id='roleinteam'>Team Role Not Found</h3>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                         </ul>
@@ -101,7 +102,26 @@
     </div>
     <!-- /.intro-header -->
 
-    <div class="teamsection"> 
+	
+    <div class="teamsection">
+    	<div class="changeuserteamsection">
+        	<div class="container">
+            	<h3>Add or Remove a Team Member:</h3>
+            	<div class="form-group">
+            		<select class="form-control" id="usernametodropfromteamselector">
+            			<option>Select Member to Remove</option>
+            		</select>
+            		<button type="button" class="btn btn-default" id="removeuserfromteambutton">Remove Member</button>
+				</div>
+				<div class="form-group">
+            		<select class="form-control" id="usernametoaddtoteamselector">
+            			<option value="">Select Member to Add</option>
+            		</select>
+            		<button type="button" class="btn btn-default" id="addusertoteambutton">Add Member</button>
+				</div>
+        	</div>
+    	</div> 
+    	
         <div class="container"> 
             <h3>My Team:</h3> 
             <ul class="team-members">
@@ -112,9 +132,20 @@
         </div> 
     </div>
 
+	<div class="addremoveprojectsection">
+        <div class="container">
+            <h3>Add or Remove a Project:</h3>
+            <div class="form-group">
+				<input type="text" id="addusersurveyinput" class="form-control" placeholder="Project Name" aria-describedby="basic-addon1">
+				<button type="button" class="btn btn-default" id="addprojectbutton">Add project</button>
+				<button type="button" class="btn btn-default" id="removeprojectbutton">Remove project</button>
+			</div>
+        </div>
+    </div>
+
     <div class="projectsection">
         <div class="container">
-            <h3>Project:</h3>
+            <h3>Projects:</h3>
             <ul class="projects">
                 <li>
                     <div id="projectlistholder"></div>
@@ -125,24 +156,31 @@
     
     <div class="surveypermissionssection">
         <div class="container">
-            <h3>Give user survey permission</h3>
+            <h3>Give Member Questionnaire Permission:</h3>
             <div class="form-group">
-				<input type="text" id="addusersurveyinput" class="form-control" placeholder="username" aria-describedby="basic-addon1">
-				<button type="button" class="btn btn-default" id="addusersurveybutton">Give Survey Permissions</button>
+            	<select class="form-control" id="usernameforsurveyselector">
+            		<option value="">Select Member</option>
+            	</select>
+            	<button type="button" class="btn btn-default" id="addusersurveybutton">Give Questionnaire Permissions</button>
 			</div>
         </div>
     </div>
     
     <div class="changeuserprojectsection">
         <div class="container">
-            <h3>Change member's project</h3>
+            <h3>Change Member's Project:</h3>
             <div class="form-group">
-				<input type="text" id="changeusernameinput" class="form-control" placeholder="username" aria-describedby="basic-addon1">
-				<input type="text" id="changeprojectinput" class="form-control" placeholder="projectName" aria-describedby="basic-addon1">
+            	<select class="form-control" id="usernameforprojectselector">
+            		<option value="">Select Member</option>
+            	</select>
+            	<select class="form-control" id="projectselector">
+            		<option value="">Select Project</option>
+            	</select>
 				<button type="button" class="btn btn-default" id="changeuserprojectbutton">Change Project</button>
 			</div>
         </div>
     </div>
+    
 
     <!-- Footer -->
     <footer>

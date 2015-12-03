@@ -136,7 +136,7 @@ h6 {
 }
 
 .projectsection {
-    padding: 100px 0;
+    padding: 20px 0;
 }
 
 #addProjectButton {
@@ -151,4 +151,8 @@ footer {
 
 p.copyright {
     margin: 15px 0 0;
+}
+
+form-group {
+	text-align: center;
 }
