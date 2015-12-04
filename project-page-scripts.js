@@ -30,7 +30,7 @@ var main = function() {
 	var Projects = Parse.Object.extend("Projects");
 	var query = new Parse.Query(Projects);
 	query.equalTo("projectName", projectName);
-	query.equalTo("teamName", teamName);
+	query.equalTo("assignedTeam", teamName);
 	query.find({
 	 	success: function(results) {
 	 		for(var i in results) {
@@ -347,19 +347,6 @@ var main = function() {
 		$('#recommendedProcessModelHeader').text("Recommended Process Model: " + bestProcessModelName + " or alternatively " + secondBestProcessModelName);
 	}); 
 
-	// I believe that all this code below is actually not supposed to be here
-	/*var Projects = Parse.Object.extend("Projects");
-	var query = new Parse.Query(Projects);
-	query.equalTo("assignedTeam", teamName);
-	query.find({
-		success: function(results){
-			for(var i = 0; i < results.length; i++){
-				//display all projects found for that team
-				$('<li>').text(results[i].get("projectName")).appendTo("#projectlistholder");
-			}
-		}
-	});*/
-	//$('<li>').text(projectName).appendTo("#projectlistholder");
 
 	// Get Team Information
 	var User = Parse.Object.extend("_User");

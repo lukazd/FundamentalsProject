@@ -61,7 +61,7 @@ var main = function() {
 		}
 	});
 
-	//get the user's teamName so we can query the Projects table to find all projects
+	/*//get the user's teamName so we can query the Projects table to find all projects
 	//that that team is working on
 	var teamName = Parse.User.current().get("teamName");
 	var Projects = Parse.Object.extend("Projects");
@@ -78,7 +78,7 @@ var main = function() {
 					});
 			}
 		}
-	});
+	});*/
 	
 	// give survey permissions to user
 	/*$('#addusersurveybutton').click(function() {
@@ -107,6 +107,76 @@ var main = function() {
 		}
 		
 	});*/
+	
+	// Add a project
+	$('#addprojectbutton').click(function() {
+		if(confirm("Are you sure you want to add a project?")) {
+			var projectName = $('#addremoveprojectinput').val().trim();
+			var Projects = Parse.Object.extend("Projects");
+			var query = new Parse.Query(Projects);
+			query.equalTo("assignedTeam", teamName);
+			query.equalTo("projectName", projectName);
+			query.find({
+				success: function(results){
+					if(results.length > 0) {
+						alert("Such a project already exists for this team");
+					}
+					else {
+						var Projects = Parse.Object.extend("Projects");
+						var projects = new Projects();
+						projects.set("assignedTeam", teamName);
+						projects.set("projectName", projectName);
+						projects.set("processModel", "No Process Model Selected");
+						projects.save(null, {
+							success: function(projects) {
+								//display the project the leader just added
+								//$('<li>').text(projectName).appendTo("#projectlistholder");
+							},
+							error: function(projects, error) {
+								alert("Could not add project.");
+							}
+						})
+					}
+					updatePage(teamName);
+				},
+				error: function(error) {
+					alert("Could not add project.");
+				}
+			});
+		}	
+	});
+	
+	// Add a project
+	$('#removeprojectbutton').click(function() {
+		if(confirm("Are you sure you want to remove a project?")) {
+			var projectName = $('#addremoveprojectinput').val().trim();
+			var Projects = Parse.Object.extend("Projects");
+			var query = new Parse.Query(Projects);
+			query.equalTo("assignedTeam", teamName);
+			query.equalTo("projectName", projectName);
+			query.find({
+				success: function(results){
+					if(results.length > 0) {
+						results[0].destroy({
+							success: function(myObject) {
+								alert(projectName + " was successfully removed.");
+							},
+							error: function(myObject, error){
+								alert("Could not remove project");
+							}
+						});
+					}
+					else {
+						alert("There is no such project");
+					}
+					updatePage(teamName);
+				},
+				error: function(error) {
+					alert("Could not remove project.");
+				}
+			});
+		}	
+	});
 	
 	// move user to another project
 	/*$('#changeuserprojectbutton').click(function() {
@@ -194,7 +264,18 @@ var main = function() {
 $(document).ready(main);
 
 function updatePage(teamName) {
-	// Populate the remove and add members select boxes
+	// Clear all of the selects and lists
+	$("#usernametodropfromteamselector").empty();
+	$("#usernameforsurveyselector").empty();
+	$("#usernametoaddtoteamselector").empty();
+	$("#usernameforprojectselector").empty();
+	$("#usernameforchangeroleselector").empty();
+	$("#projectselector").empty();
+	$("#teamlist").empty();
+	$("#projectlist").empty();
+
+	// Populate the remove and add members, survey permissions, and user change project select boxes
+	// Also populate the team members
 	var User = Parse.Object.extend("User");
 	var query1 = new Parse.Query(User);
 	var query2 = new Parse.Query(User);
@@ -203,7 +284,6 @@ function updatePage(teamName) {
 	query2.equalTo("teamName", null);
 	query3.equalTo("teamName", "");
 	var mainQuery = Parse.Query.or(query1,query2,query3);
-	
 	mainQuery.find({
 		success: function(results) {
 			for(var i = 0; i < results.length; i++) {
@@ -215,11 +295,12 @@ function updatePage(teamName) {
 					var lastName = object.get('lastName');
 					var username = object.get('username') ;
 					var role = object.get('RoleinTeam');
+					var canAnswerQuestionnaire = object.get('canAnswerQuestionnaire');
 						
 				
 					// Add team members that are part of the team to the remove section
 					// Also add them to the survey permission granting section
-					if(userTeam === teamName) {
+					if(userTeam === teamName) {					
 						// Remove member section
 						var dropUserSelect = document.getElementById("usernametodropfromteamselector");
 						var optionRemove = document.createElement("option");
@@ -230,7 +311,7 @@ function updatePage(teamName) {
 						// Survey permission section
 						var giveUserPermissionSelect = document.getElementById("usernameforsurveyselector");
 						var optionGivePermission = document.createElement("option");
-						optionGivePermission.text = firstName + " " + lastName + " " + "(" + username + ")";
+						optionGivePermission.text = firstName + " " + lastName + " " + "(" + username + ")" + " Authorized: " + canAnswerQuestionnaire.toString();
 						optionGivePermission.value = username;
 						giveUserPermissionSelect.add(optionGivePermission);
 					}
@@ -245,25 +326,43 @@ function updatePage(teamName) {
 					}
 				}
 				
-				// Add team members that are on the team to the change project section
+				// Add team members that are on the team to the change project section and team list section
 				if(userTeam === teamName) {
 					var changeUserProjectSelect = document.getElementById("usernameforprojectselector");
 					var optionChangeUserProject = document.createElement("option");
 					optionChangeUserProject.text = firstName + " " + lastName + " " + "(" + username + ")";
 					optionChangeUserProject.value = username;
 					changeUserProjectSelect.add(optionChangeUserProject);
+					
+					var changeUserRoleSelect = document.getElementById("usernameforchangeroleselector");
+					var optionChangeUserRole = document.createElement("option");
+					optionChangeUserRole.text = firstName + " " + lastName + " " + "(" + username + ")" + " " + "(Current Role: " + role +" )"
+					optionChangeUserRole.value = username;
+					changeUserRoleSelect.add(optionChangeUserRole);
+					
+					// Update the team list
+					var teamList = document.getElementById("teamlist");
+					var list = document.createElement("li");
+					if(object.get('isTeamLeader') === "true") {
+						list.appendChild(document.createTextNode(object.get('firstName') + " " + object.get('lastName') + ": Team Leader"));
+  					}
+  					else {
+						list.appendChild(document.createTextNode(object.get('firstName') + " " + object.get('lastName') + ": Team Member"));
+  					}
+  					teamList.appendChild(list);
 				}
 			}
 		}
 	});
 	
-	
+	// Update the selector for moving a user to a project and the project list
 	var Projects = Parse.Object.extend("Projects");
 	var query = new Parse.Query(Projects);
-	query.equalTo("teamName", teamName);	
+	query.equalTo("assignedTeam", teamName);	
 	query.find({
 		success: function(results) {
 			for(var i = 0; i < results.length; i++) {
+				// Update the project selector
 				var object = results[i];
 				var projectName = object.get('projectName');
 				var projectSelect = document.getElementById("projectselector");
@@ -271,6 +370,12 @@ function updatePage(teamName) {
 				optionProject.text = projectName;
 				optionProject.value = projectName;
 				projectSelect.add(optionProject);
+				
+				// Update the project list
+				var projectList = document.getElementById("projectlist");
+				var list = document.createElement("li");
+				list.appendChild(document.createTextNode("Project Name: " + object.get('projectName') + ", Process Model: " + object.get('processModel')));
+  				projectList.appendChild(list);
 			}
 		}
 	});
