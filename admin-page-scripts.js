@@ -30,18 +30,24 @@ var main = function() {
 	$('#changeuserrolebutton').click(function() {
 		if(confirm("Are you sure you want to promote or demote this user?")) {
 			var username = $('#usernametopromoteordemoteselector').val();
-			var User = Parse.Object.extend("User");
-			var query = new Parse.Query(User);
+			var Person = Parse.Object.extend("Person");
+			var query = new Parse.Query(Person);
 			query.equalTo("username", username);
 			query.first({
 				success: function(result){
 					if(result != null) {
-						alert("We'll update the user for you alright, jeez!");
+						if(result.get("role") == "Member"){
+							result.set("role", "Leader");
+							result.save();
+						}
+						else if(result.get("role") == "Leader"){
+							result.set("role", "Member");
+							result.save();
+						}
 					}
 					else {
 						alert("This user does not exist.");
 					}
-					updatePage(teamName);
 				},
 				error: function(error) {
 					alert("The role could not be updated.");
@@ -60,22 +66,22 @@ function updatePage() {
 	$("#usernametopromoteordemoteselector").empty();
 
 	// Populate the promotion select
-	var User = Parse.Object.extend("_User");
-	var query = new Parse.Query(User);	
-	query.equalTo("isTeamAdmin", "false");
+	var Person = Parse.Object.extend("Person");
+	var query = new Parse.Query(Person);
+	query.notContainedIn("Role", ["Admin"]);
 	query.find({
 		success: function(results) {
 			for(var i = 0; i < results.length; i++) {
 				var object = results[i];
 				var userTeam = object.get('teamName');
-				var isTeamMember = object.get('isTeamMember');
+				var role = object.get('role');
 				var firstName = object.get('firstName');
 				var lastName = object.get('lastName');
 				var username = object.get('username');
-				
+
 				var promoteDemoteUserSelect = document.getElementById("usernametopromoteordemoteselector");
 				var optionPromoteDemote = document.createElement("option");
-				if(isTeamMember === "true") {
+				if(role == "Member"){
 					optionPromoteDemote.text = firstName + " " + lastName + " " + "(" + username + ")" + " " + "(Role: Team Member)";
 				}
 				else{
