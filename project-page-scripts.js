@@ -25,6 +25,7 @@ var main = function() {
 			teamName = result.get("teamName");
 			projectName = result.get("projectName");
 			
+			
 			$('#projectnameheader').text(projectName);
 			// Grab the process model for the project if it exists
 			var Projects = Parse.Object.extend("Projects");
@@ -90,15 +91,22 @@ var main = function() {
 
 						//display the team members in a list
 						$('<li>').text(teammateName + ": " + teammateRole + ", " + teammateRoleInTeam).appendTo('#teamlistholder');
+					}
+				},
+				error: function(error) {
+					alert("Could not get teammates.");
+				}
+			});
+			
+			// Blank project page if they aren't on a project
+			if(projectName === "") {
+				$(".hasprojectdiv").remove();
+				$('#processselectdropdown').remove();
+				$('#projectnameheader').text("You are not assigned to a project!");
 			}
-		},
-		error: function(error) {
-			alert("Could not get teammates.");
-		}
-	});
 			
 			// Remove the questionnaire and process selector for non team leaders
-			if(!(userRole === "Team Leader") && result.get("canAnswerQuestionnaire") == false) {
+			else if(!(userRole === "Team Leader") && result.get("canAnswerQuestionnaire") == false) {
 				$('.questionnaire').remove();
 				$('#processselectdropdown').remove();
 			}
