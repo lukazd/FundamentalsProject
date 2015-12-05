@@ -69,7 +69,7 @@ var main = function() {
 		else if(role == "Team Leader" && roleCode != teamLeaderKey){
 			alert("Invalid role code");
 		}
-		else if(role == "Team Admin" && roleCode != teamAdminKey){
+		else if(role == "Admin" && roleCode != teamAdminKey){
 			alert("Invalid role code");
 		}
 		else{
