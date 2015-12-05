@@ -1,39 +1,56 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Process Model - Notification Page</title>
+
+    <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link href="landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
     <!-- Parse -->
     <script src="//www.parsecdn.com/js/parse-1.6.4.min.js"></script>
-    <!-- Link to style.css -->
-    <link rel="stylesheet" type="text/css" href="signup-style.css">
+
     <!-- jQuery -->
-    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2'>
-    
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js?ver=1.4.2'></script>
 
-
-
-    </script>
-    <!-- Link to JavaScript -->
     <script src="notification-page.js"></script>
-  </head>
 
-  <body>
- <script>
+</head>
 
-    //var clickedButton = document.getElementById()
-    function add(i, description) {
+<body>
+
+    <script>
+
+    function updatepage(){
+    window.location.reload();
+}
+
+    function add(i, obj) {
         
     //Create an input type dynamically.   
     var element1= document.createElement("input");
     var element2 = document.createElement("input");
     //Assign different attributes to the element. 
     element1.type = "button";
-    element1.value = "save"; // Really? You want the default value to be the type string?
-    element1.name = "save";  // And the name too?
+    element1.value = "Approve"; // Really? You want the default value to be the type string?
+    element1.name = "Approve";  // And the name too?
+    element1.style.color = "black";
     element1.id = i;
+    //ele = document.getElementById(i);
+    //ele.style.backgroundColor = "#7FFF00";
     element1.onclick = function() { // Note this is a function
         var r = confirm("Press OK to confirm");
         if (r== true){
@@ -43,15 +60,25 @@
             var teamName = Parse.User.current().get("teamName");
             var Event= Parse.Object.extend("CalendarEvent");
             var query = new Parse.Query(Event);
-            query.equalTo("description", description);
+            query.equalTo("objectId", obj);
             query.find({
             success: function(results) {
                 //alert(results.length);
                 for(var i = 0; i < results.length; i++){
                     var object = results[i]
+                    console.log(object.get("toBeDeleted"), object.get("verified"));
+                    if (object.get("toBeDeleted")== true ){
+                        object.destroy();
+                        updatepage();
+                    }
                     //alert(object);
-                    object.set("verified", true);
-                    object.save();
+                    
+
+                    if (object.get("toBeDeleted") == false ){
+                        object.set("verified", true);
+                        object.save();
+                        updatepage();
+                    }
                     
                     //window.location.reload();
                 }
@@ -73,6 +100,7 @@
     element2.value = "Dismiss"; // Really? You want the default value to be the type string?
     element2.name = "Dismiss";  // And the name too?
     element2.id = i;
+    element2.style.color = "black";
     element2.onclick = function() { // Note this is a function
 
         var r = confirm("Press OK to confirm");
@@ -82,15 +110,30 @@
             var teamName = Parse.User.current().get("teamName");
             var Event= Parse.Object.extend("CalendarEvent");
             var query = new Parse.Query(Event);
-            query.equalTo("description", description);
+            query.equalTo("objectId", obj);
             query.find({
             success: function(results) {
                 //alert(results.length);
                 for(var i = 0; i < results.length; i++){
                     var object = results[i]
+                    console.log(object.get("toBeDeleted"), object.get("verified"));
                     
 
-                    object.destroy();
+                   if (object.get("toBeDeleted")== true ){
+                        object.set("toBeDeleted", false);
+                        object.set("verified", true);
+                        object.save();
+                        updatepage();
+                        
+                    }
+                    
+                    
+
+                    if (object.get("toBeDeleted")== false ){
+                        
+                        object.destroy();
+                        updatepage();
+                    }
                     
 
                 }
@@ -115,6 +158,7 @@
 
 </script>
 
+
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
         <div class="container topnav">
@@ -130,15 +174,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    
                     <li>
-                        <a href="project-page.html">Projects</a>
-                    </li>
+                            <a href="project-page.html">Projects</a>
+                        </li>
                     <li>
-                        <a href="notification-page.html">Notifications</a>
-                    </li>
-                    <li>
-                        <a href="change-members.html">Change Members</a>
+                        <a href="notification-page.html">Notification</a>
                     </li>
                     <li>
                         <a href="#about">About</a>
@@ -159,35 +199,10 @@
         <!-- /.container -->
     </nav>
 
-    <div class="header">
-      <div class="container">
-      <img src="http://rocketshipfilms.tv/-/img/rsf-logo-1.png" id="logo">
-      </div>
-    </div>
 
-       <!-- Header -->
-    <a name="about"></a>
-    <div class="intro-header">
-        <div class="container">
+    
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h1>Welcome</h1>
-                        <!-- get user's name here -->
-                        <h3 id='name'>Name Not Found</h3>
-                        <h3 id='user-role'>Role Not Found</h3>
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-        <!-- /.container -->
-    </div>
-    <!-- /.intro-header -->
 
     <div class="teamsection"> 
         <div class="container"> 
@@ -195,16 +210,16 @@
             <ul class="team-members">
                 <li>
                     <div id="teamlistholder"></div>
-                    
                 </li>
 
-                        
+                       
                     
             </ul>
         </div> 
 
     </div>
 
+	<!-- Footer 
     <div class="projectsection">
         <div class="container">
             <h3>Project:</h3>
@@ -214,7 +229,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <!-- Footer -->
     <footer>

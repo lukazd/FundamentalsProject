@@ -1,34 +1,41 @@
-function hello(){console.log("Printing Hello")};	
-
-
 var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
-
 	var firstName = Parse.User.current().get("firstName");
 	var lastName = Parse.User.current().get("lastName");
-	var userRole = "Team Member";
-	$('#name').text(firstName + " "+ lastName);
+	var userRole = "Team Leader";
+	//$('#name').text(Parse.User.current().get("isTeamLeader"));
 	if( Parse.User.current().get("isTeamLeader") == "true" ) {
 		$('#user-role').text(userRole);
 		var teamName = Parse.User.current().get("teamName");
 		var Event= Parse.Object.extend("CalendarEvent");
 		var query = new Parse.Query(Event);
-		query.equalTo("verified", false);
+		query.equalTo("teamName", teamName);
 		query.find({
 		success: function(results) {
-			
-			for(var i = 0; i < results.length; i++){
-				
-   				
+			//$('#name').text(results.length);
+			for(var i = 0; i < results.length; i++) {
+				//alert(results[i].get('description'));
 				var object = results[i];
-				//get the fields for each team member found
-				var description = object.get('description');
-				var oi = object.get('objectId');
 				var status = object.get('verified');
-				$('<li>').text(description+ " "+ status + " " + oi).appendTo('#teamlistholder');
+				if(status == false){
+				//get the fields for each team member found
+				var name = object.get('name')
+				var description = object.get('description');
+				var startDate = object.get('startDate');
+				var endDate = object.get('endDate');
+				//var deleting = object.get('toBeDeleted');
 				
-				add(i, description);
+				var obj = object.id;
+				$('<li>').text(name + " (" + description + ") from " + startDate.getMonth() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + endDate.getMonth() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
+				add(i, obj);
+				}
+				/*if(deleting) {
+					$('<li>').text("Deleting event: " + description+ ""+ status).appendTo('#teamlistholder');
+				}
+				else {
+					$('<li>').text("Adding event: " + description+ ""+ status).appendTo('#teamlistholder');
+				}*/
 			}
 		},
 		error: function(error) {
@@ -38,12 +45,12 @@ var main = function() {
 
 	
 	}
-	else if( Parse.User.current().get("isTeamAdmin") == "true") {
+	else if( Parse.User.current().get("isTeamLeader") == "false") {
 		var teamName = Parse.User.current().get("teamName");
 
-	var Event= Parse.Object.extend("CalenderEvent");
+	var Event= Parse.Object.extend("CalendarEvent");
 	var query = new Parse.Query(Event);
-	query.equalTo("verified", "false");
+	query.equalTo("verified", false);
 	query.find({
 		success: function(results) {
 			for(var i = 0; i < results.length; i++){
@@ -64,12 +71,10 @@ var main = function() {
 	
 	}
 
-	
-
 	$('#savebutton').click(function() {
-		
-	if( Parse.User.current().get("isTeamLeader") == "true" ) {
-		$('#user-role').text("first if");
+		if(confirm("Are you sure you would like to confirm the events?")) {
+		if( Parse.User.current().get("isTeamLeader") == "true" ) {
+		//$('#user-role').text("first if");
 		var teamName = Parse.User.current().get("teamName");
 		var Event= Parse.Object.extend("CalendarEvent");
 		var query = new Parse.Query(Event);
@@ -81,6 +86,10 @@ var main = function() {
 					var object = results[i]
 					//alert(object);
 					object.set("verified", true);
+					/*var deleting = object.get('toBeDeleted');
+					if(deleting) {
+						object.destroy();
+					}*/
 					object.save();
 					
 
@@ -91,6 +100,7 @@ var main = function() {
 			alert("Error: " + error.code + " " + error.message);
 			}
 		});
+	}
 	}
 			
 	});
@@ -111,3 +121,4 @@ var main = function() {
 }
 
 $(document).ready(main);
+
