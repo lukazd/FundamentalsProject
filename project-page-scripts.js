@@ -3,13 +3,112 @@ var main = function() {
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
 	// var projectName = Parse.User.current().get("projectName");
-	var projectName = window.location.hash.substring(1);
-	var teamName = Parse.User.current().get("teamName");
+	// var projectName = window.location.hash.substring(1);
 	var userRole = "Team Member";
+	var teamName = "";
+	var projectName = "";
+	var firstName = "";
+	var lastName = "";
+	var username = "";
 	var selectedProcessModel = "Use the questionnaire below to help you select a process model";
+	var firstName = Parse.User.current().get("firstName");
+	var lastName = Parse.User.current().get("lastName");
+	var username = Parse.User.current().get("username");
 	
-	$('#projectnameheader').text(projectName);
+	var Person = Parse.Object.extend("Person");
+	var query = new Parse.Query(Person);
+	query.equalTo("username", username);
+	query.first({
+		success: function(result) {
+			userRole = result.get("role");
+			roleInTeam = result.get("roleInTeam"); 
+			teamName = result.get("teamName");
+			projectName = result.get("projectName");
+			
+			$('#projectnameheader').text(projectName);
+			// Grab the process model for the project if it exists
+			var Projects = Parse.Object.extend("Projects");
+			var projectQuery = new Parse.Query(Projects);
+			projectQuery.equalTo("projectName", projectName);
+			projectQuery.equalTo("assignedTeam", teamName);
+			projectQuery.find({
+	 			success: function(results) {
+	 				if(results.length > 0) {
+	 					if(results[0].get("processModel") !== null) {
+	 						selectedProcessModel = results[0].get("processModel");
+	 						$('#processmodelheader').text(selectedProcessModel);
+						}
+					}
+	 			},
+	 			error: function(error) {
+					alert("Could not retrieve process model information");
+				}
+	 		});
+	 		
+	 		// Get the calendar events in the database and add them to the calendar
+			var CalendarEvent = Parse.Object.extend("CalendarEvent");
+			var query = new Parse.Query(CalendarEvent);
+			query.equalTo("projectName", projectName);
+			query.equalTo("teamName", teamName);
+			query.find({
+				success: function(results) {
+					var projectCalendar = $('#calendar');
+					projectCalendar.fullCalendar();
+			
+					// Add the retrieved dates to the calendar
+					for (var i = 0; i < results.length; i++) {
+						if(results[i].get("verified")) {
+							var newEvent = {
+								title: results[i].get("name") + ' (' + results[i].get("description") + ')',
+								allDay: true,
+								start: results[i].get("startDate"),
+								end: results[i].get("endDate"),
+								id: results[i].id
+							};	
+							projectCalendar.fullCalendar('renderEvent', newEvent, true);
+						}
+					}
+				},
+				error: function(error) {
+					alert("Could not retrieve calendar event information");
+				}
+			});
+			
+			var Person = Parse.Object.extend("Person");
+			var query = new Parse.Query(Person);
+			query.equalTo("teamName", teamName);
+			query.equalTo("projectName", projectName);
+			query.notEqualTo("role", "Admin");
+			query.find({
+				success: function(results) {
+					for(var i = 0; i < results.length; i++){
+						var object = results[i];
+						//get the fields for each team member found
+						var teammateName = object.get('firstName') + " " + object.get('lastName');
+						var teammateRoleInTeam = object.get('roleInTeam');
+						var teammateRole = object.get('role');
+
+						//display the team members in a list
+						$('<li>').text(teammateName + ": " + teammateRole + ", " + teammateRoleInTeam).appendTo('#teamlistholder');
+			}
+		},
+		error: function(error) {
+			alert("Could not get teammates.");
+		}
+	});
+			
+			// Remove the questionnaire and process selector for non team leaders
+			if(!(userRole === "Team Leader") && result.get("canAnswerQuestionnaire") == false) {
+				$('.questionnaire').remove();
+				$('#processselectdropdown').remove();
+			}
+		},
+		error: function(error) {
+			alert("Could not properly retrieve your information!");
+		}
+	});
 	
+	// Contains the list of questions being asked
 	var questions;
 	
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
@@ -26,25 +125,32 @@ var main = function() {
 	
 	var currentAnswerResults;
 
-	// Grab the process model for the project if it exists
-	var Projects = Parse.Object.extend("Projects");
-	var query = new Parse.Query(Projects);
-	query.equalTo("projectName", projectName);
-	query.equalTo("assignedTeam", teamName);
-	query.find({
-	 	success: function(results) {
-	 		for(var i in results) {
-	 			if(results[i].get("processModel") !== null) {
-	 				selectedProcessModel = results[i].get("processModel");
-	 				$('#processmodelheader').text(selectedProcessModel);
-	 			}
-	 		}
-	 	},
-	 	error: function(error) {
-			alert("Could not retrieve process model information");
-		}
-	 });
 	
+	 /* This was moved inside of the other query to make sure we have the right data
+	 // Get project team information
+	var Person = Parse.Object.extend("Person");
+	var query = new Parse.Query(Person);
+	query.equalTo("teamName", teamName);
+	query.equalTo("projectName", projectName);
+	query.find({
+		success: function(results) {
+			for(var i = 0; i < results.length; i++){
+				var object = results[i];
+				//get the fields for each team member found
+				var teammateName = object.get('firstName') + " " + object.get('lastName');
+				var teammateRoleInTeam = object.get('roleInTeam');
+				var teammateRole = object.get('role');
+
+				//display the team members in a list
+				$('<li>').text(teammateName + ": " + teammateRole + ", " + teammateRoleInTeam).appendTo('#teamlistholder');
+			}
+		},
+		error: function(error) {
+			alert("Could not get teammates.");
+		}
+	});*/
+	
+	/* Moved inside of the other query to make sure we have the right information
 	// Get the calendar events in the database and add them to the calendar
 	var CalendarEvent = Parse.Object.extend("CalendarEvent");
 	var query = new Parse.Query(CalendarEvent);
@@ -73,14 +179,16 @@ var main = function() {
 			alert("Could not retrieve calendar event information");
 		}
 	});
+	*/
 	
 	// Find the user role
+	/*
 	if( Parse.User.current().get("isTeamLeader") == "true" ) {
 		userRole = "Team Leader";
 	}
 	else if( Parse.User.current().get("isTeamAdmin") == "true") {
 		userRole = "Team Admin";
-	}
+	}*/
 
 	//$('#name').text(firstName + " " + lastName);
 	//$('#user-role').text(userRole);
@@ -92,11 +200,12 @@ var main = function() {
 		return false;
 	});
 	
+	/* moved to inside of query to make sure we have the right information
 	// Remove the questionnaire and process selector for non team leaders
 	if(!(userRole === "Team Leader") && Parse.User.current().get("canAnswerQuestionnaire") == false) {
 		$('.questionnaire').remove();
 		$('#processmodeldropdown').remove();
-	}
+	} */
 
 	// Save the process model chosen to the database
 	$('#processmodeldropdown').click(function(e) {
@@ -343,37 +452,11 @@ var main = function() {
 				break;
 				
 		}
-		//window.alert("Recommended Process Model: " + bestProcessModelName + " or alternatively " + secondBestProcessModelName);
 		$('#recommendedProcessModelHeader').text("Recommended Process Model: " + bestProcessModelName + " or alternatively " + secondBestProcessModelName);
 	}); 
 
 
-	// Get Team Information
-	var User = Parse.Object.extend("_User");
-	var query = new Parse.Query(User);
-	query.equalTo("teamName", teamName);
-	query.find({
-		success: function(results) {
-			for(var i = 0; i < results.length; i++){
-				var object = results[i];
-				//get the fields for each team member found
-				var teammateName = object.get('firstName') + " " + object.get('lastName');
-				var teammateRole = "Team Member";
-				if(object.get("isTeamLeader") == "true"){
-					teammateRole = "Team Leader";
-				}
-				else if(object.get("isTeamAdmin") == "true"){
-					teammateRole = "Team Admin";
-				}
-
-				//display the team members in a list
-				$('<li>').text(teammateName + ": " + teammateRole).appendTo('#teamlistholder');
-			}
-		},
-		error: function(error) {
-			alert("Error: " + error.code + " " + error.message);
-		}
-	});
+	
 	
 	// Initialize the calendar
 	$('#calendar').fullCalendar({
@@ -485,8 +568,6 @@ var main = function() {
 		}
 		
 	});
-
-
 }
 
 $(document).ready(main);
