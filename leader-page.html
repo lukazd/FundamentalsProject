@@ -78,6 +78,7 @@
                         <h3 id='name'></h3>
                         <h3 id='user-role'></h3>
                         <h3 id='roleinteam'></h3>
+                        <h3 id='teamname'></h3>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                         </ul>
@@ -97,13 +98,11 @@
             	<h3>Add or Remove a Team Member:</h3>
             	<div class="form-group">
             		<select class="form-control" id="usernametodropfromteamselector">
-            			<option>Select Member to Remove</option>
             		</select>
             		<button type="button" class="btn btn-default" id="removeuserfromteambutton">Remove Member</button>
 				</div>
 				<div class="form-group">
             		<select class="form-control" id="usernametoaddtoteamselector">
-            			<option value="">Select Member to Add</option>
             		</select>
             		<button type="button" class="btn btn-default" id="addusertoteambutton">Add Member</button>
 				</div>
@@ -139,9 +138,8 @@
             <h3>Change Questionnaire Permissions:</h3>
             <div class="form-group">
             	<select class="form-control" id="usernameforsurveyselector">
-            		<option value="">Select Member</option>
             	</select>
-            	<button type="button" class="btn btn-default" id="addusersurveybutton">Give Questionnaire Permissions</button>
+            	<button type="button" class="btn btn-default" id="addusersurveybutton">Change Permissions</button>
 			</div>
         </div>
     </div>
@@ -151,10 +149,9 @@
             <h3>Change Member's Project:</h3>
             <div class="form-group">
             	<select class="form-control" id="usernameforprojectselector">
-            		<option value="">Select Member</option>
             	</select>
             	<select class="form-control" id="projectselector">
-            		<option value="">Select Project</option>
+            		<option value="">No Project</option>
             	</select>
 				<button type="button" class="btn btn-default" id="changeuserprojectbutton">Change Project</button>
 			</div>
@@ -166,7 +163,6 @@
             <h3>Change Member's Role in Team:</h3>
             <div class="form-group">
             	<select class="form-control" id="usernameforchangeroleselector">
-            		<option value="">Select Member</option>
             	</select>
             	<select class="form-control" id="roleselector">
             		<option value="No Role">No Role</option>
