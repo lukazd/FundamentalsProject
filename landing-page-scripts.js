@@ -14,6 +14,18 @@ var main = function() {
 		success: function(result){
 			if(result != null) {
 				userRole = result.get("role");
+
+				// Redirect for incorrect user roles on this page
+				if(userRole === "Team Leader") {
+					window.location = "leader-page.html";
+				}
+				else if(userRole === "Admin") {
+					window.location = "admin-page.html";
+				}
+				else if(userRole != "Team Member") {
+					window.location = "index.html";
+				}
+
 				$('#name').text(firstName + " " + lastName);
 				$('#user-role').text(userRole);
 
