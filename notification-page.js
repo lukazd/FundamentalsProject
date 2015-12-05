@@ -11,6 +11,7 @@ var main = function() {
 		var Event= Parse.Object.extend("CalendarEvent");
 		var query = new Parse.Query(Event);
 		query.equalTo("teamName", teamName);
+		query.descending("createdAt");
 		query.find({
 		success: function(results) {
 			//$('#name').text(results.length);
@@ -24,10 +25,11 @@ var main = function() {
 				var description = object.get('description');
 				var startDate = object.get('startDate');
 				var endDate = object.get('endDate');
+				var projectName = object.get("projectName");
 				//var deleting = object.get('toBeDeleted');
 				
 				var obj = object.id;
-				$('<li>').text(name + " (" + description + ") from " + startDate.getMonth() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + endDate.getMonth() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
+				$('<li>').text(name + " (" + description + ") " + "     " + "Project: " + projectName+ "      from " + startDate.getMonth() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + endDate.getMonth() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
 				add(i, obj);
 				}
 				/*if(deleting) {
