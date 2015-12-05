@@ -5,7 +5,7 @@ var main = function() {
 	var firstName = Parse.User.current().get("firstName");
 	var lastName = Parse.User.current().get("lastName");
 	var username = Parse.User.current().get("username");
-	var roleInTeam ="";
+	var roleInTeam = "";
 	var userRole = "";
 	var teamName = "";
 	
@@ -18,16 +18,30 @@ var main = function() {
 			userRole = result.get("role");
 			roleInTeam = result.get("roleInTeam"); 
 			teamName = result.get("teamName");
+			
+			// Redirect for incorrect user roles on this page
+			if(userRole === "Team Member") {
+				window.location = "landing-page.html";
+			}
+			else if(userRole === "Admin") {
+				window.location = "admin-page.html";
+			}
+			else if(userRole != "Team Leader") {
+				window.location = "index.html";
+			}
+			
+			// Display the user's credentials on the page
+			$('#name').text(firstName + " " + lastName);
+			$('#user-role').text(userRole);
+			$('#roleinteam').text(roleInTeam);
+			updatePage(teamName);
 		},
 		error: function(error) {
 			alert("Could not properly retrieve your information!");
 		}
 	});
 
-	// Display the user's credentials on the page
-	$('#name').text(firstName + " " + lastName);
-	$('#user-role').text(userRole);
-	$('#roleinteam').text(roleInTeam);
+	
 
 	// Logout functionality
 	$('#logoutbutton').click(function() {
@@ -35,60 +49,6 @@ var main = function() {
 		window.location = "index.html";
 		return false;
 	});
-
-
-	// Get this current users
-	//var teamName = Parse.User.current().get("teamName");
-	
-	// Update the page to show the latest fields for a project
-	// This is important to do whenever changes are made
-	updatePage(teamName);
-
-
-	/*var User = Parse.Object.extend("_User");
-	var query = new Parse.Query(User);
-	query.equalTo("teamName", teamName);
-	query.find({
-		success: function(results) {
-			for(var i = 0; i < results.length; i++){
-				var object = results[i];
-				//get the fields for each team member found
-				var teammateName = object.get('firstName') + " " + object.get('lastName');
-				var teammateRole = "Team Member";
-				if(object.get("isTeamLeader") == "true"){
-					teammateRole = "Team Leader";
-				}
-				else if(object.get("isTeamAdmin") == "true"){
-					teammateRole = "Team Admin";
-				}
-
-				//display the team members in a list
-				$('<li>').text(teammateName + ": " + teammateRole).appendTo('#teamlistholder');
-			}
-		},
-		error: function(error) {
-			alert("Error: " + error.code + " " + error.message);
-		}
-	});*/
-
-	/*//get the user's teamName so we can query the Projects table to find all projects
-	//that that team is working on
-	var teamName = Parse.User.current().get("teamName");
-	var Projects = Parse.Object.extend("Projects");
-	var query = new Parse.Query(Projects);
-	query.equalTo("teamName", teamName);
-	query.find({
-		success: function(results){
-			for(var i = 0; i < results.length; i++){
-				//display all projects found for that team
-				currProjectName = results[i].get("projectName");
-				$('<li>').text(currProjectName).appendTo("#projectlistholder")
-					.click(function() {
-						window.location.href = "project-page.html" + "#" + currProjectName;
-					});
-			}
-		}
-	});*/
 	
 	// give/takeaway survey permissions to user
 	$('#addusersurveybutton').click(function() {
