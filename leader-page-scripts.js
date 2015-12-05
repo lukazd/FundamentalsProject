@@ -34,7 +34,12 @@ var main = function() {
 			$('#name').text(firstName + " " + lastName);
 			$('#user-role').text(userRole);
 			$('#roleinteam').text(roleInTeam);
-			$('#teamname').text("Team: " + teamName);
+			if(teamName === "") {
+				$('#teamname').text("You are not part of a team");
+			}
+			else {
+				$('#teamname').text("Team: " + teamName);
+			}
 			updatePage(teamName);
 		},
 		error: function(error) {
@@ -365,7 +370,7 @@ function updatePage(teamName) {
 					// Update the team list
 					var teamList = document.getElementById("teamlist");
 					var list = document.createElement("li");
-					list.appendChild(document.createTextNode(object.get('firstName') + " " + object.get('lastName') + ": " + roleInTeam));
+					list.appendChild(document.createTextNode(object.get('firstName') + " " + object.get('lastName') + ": " + role));
   					teamList.appendChild(list);
 				}
 			}
