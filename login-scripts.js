@@ -2,7 +2,13 @@ var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
+	var currentUser = Parse.User.current();
+                if (currentUser) {
+                    Parse.User.logOut();
+                }
+
 	$('#loginbutton').click(function() {
+
 		var username = $('#inputUsername').val();
 		var password = $('#inputPassword').val();
 
@@ -14,29 +20,34 @@ var main = function() {
 				if (Parse.User.current().get("emailVerified") == true)
 					{
 
-						
-						if(Parse.User.current().get("isTeamAdmin") == "true"){
-							//$('<p>').text(Parse.User.current().get("isTeamAdmin")).appendTo('form');
-							window.location = "admin-page.html";
-							
-						}
+						var username = Parse.User.current().get("username");
+						var Person = Parse.Object.extend("Person");
+						var query = new Parse.Query(Person);
+						query.equalTo("username", username);
+						query.first({
+							success: function(result){
+								if(result != null) {
+									var role = result.get("role");
 
-						else if(Parse.User.current().get("isTeamLeader") == "true"){
-							//alert(Parse.User.current().get("isTeamLeader"));
-							//$('<p>').text("neopee").appendTo('form');
+									if(role == "Admin"){
+										window.location = "admin-page.html";
+									}
 
-							window.location = "leader-page.html";
-				
-						}
-						else if(Parse.User.current().get("isTeamMember") == "true"){
-
-							//$('<p>').text("neopee").appendTo('form');
-
-							window.location = "landing-page.html";
-				
-						}
-						
-						
+									else if(role == "Leader"){
+										window.location = "leader-page.html";
+									}
+									else if(role == "Member"){
+										window.location = "landing-page.html";
+									}
+								}
+								else {
+									alert("This user does not exist.");
+								}
+							},
+							error: function(error) {
+								alert("Could not log in.");
+							}
+						});
 					}
 				else
 				{
