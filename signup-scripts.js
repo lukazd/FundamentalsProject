@@ -2,6 +2,11 @@ var main = function() {
 	Parse.initialize("xnGjRzHyGsIRQu1YYvlKOl6tWUi492IEYRSeJz4v", 
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
+	var currentUser = Parse.User.current();
+    if (currentUser) {
+        Parse.User.logOut();
+    }
+
 	$('#roleCode').val(0);
 	var teamLeaderKey = -1;
 	var teamAdminKey = -1;
