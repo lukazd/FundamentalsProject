@@ -15,7 +15,7 @@ var main = function() {
 			if(result != null) {
 				userRole = result.get("role");
 				$('#name').text(firstName + " " + lastName);
-				$('#user-role').text("Team " + userRole);
+				$('#user-role').text(userRole);
 
 				teamName = result.get("teamName");
 				

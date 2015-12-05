@@ -33,10 +33,10 @@ var main = function() {
 										window.location = "admin-page.html";
 									}
 
-									else if(role == "Leader"){
+									else if(role == "Team Leader"){
 										window.location = "leader-page.html";
 									}
-									else if(role == "Member"){
+									else if(role == "Team Member"){
 										window.location = "landing-page.html";
 									}
 								}
