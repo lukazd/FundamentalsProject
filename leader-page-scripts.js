@@ -91,7 +91,7 @@ var main = function() {
 		if(confirm("Are you sure you want to remove this member from your team?")) {
 			var Person = Parse.Object.extend("Person");
 			var query = new Parse.Query(Person);
-			var username = $('#usernameforprojectselector').val();
+			var username = $('#usernametodropfromteamselector').val();
 			query.equalTo("username", username);
 			query.equalTo("teamName", teamName);
 			query.first({
@@ -120,7 +120,7 @@ var main = function() {
 		if(confirm("Are you sure you want to add this member to your team?")) {
 			var Person = Parse.Object.extend("Person");
 			var query = new Parse.Query(Person);
-			var username = $('#usernameforprojectselector').val();
+			var username = $('#usernametoaddtoteamselector').val();
 			query.equalTo("username", username);
 			query.first({
 				success: function(result){
