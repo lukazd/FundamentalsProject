@@ -45,19 +45,19 @@ var main = function() {
 		var dob = $('#dob').val();
 		var teamName = $('#teamName').val();
 		var projectName = "";
-		if(teamName != ""){
-			var User = Parse.Object.extend("_User");
-			var query = new Parse.Query(User);
-			query.equalTo("teamName", teamName);
-			query.first({
-				success: function(object) {
-					projectName = object.get("projectName");
-				},
-				error: function(error) {
-					alert("Error: " + error.code + " " + error.message);
-				}
-			});
-		}
+		// if(teamName != ""){
+		// 	var User = Parse.Object.extend("_User");
+		// 	var query = new Parse.Query(User);
+		// 	query.equalTo("teamName", teamName);
+		// 	query.first({
+		// 		success: function(object) {
+		// 			projectName = object.get("projectName");
+		// 		},
+		// 		error: function(error) {
+		// 			alert("Error: " + error.code + " " + error.message);
+		// 		}
+		// 	});
+		// }
 		var validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
 		if(password != confirmPassword){
@@ -74,47 +74,26 @@ var main = function() {
 		}
 		else{
 			var user = new Parse.User();
+			var Person = new Parse.Object.extend("Person");
+			var person = new Person();
+
 			user.set("username", username);
 			user.set("firstName", firstName);
 			user.set("lastName", lastName);
 			user.set("email", email);
 			user.set("password", password);
-			if(role == "Team Member") {
-				user.set("isTeamMember", "true");
-				user.set("isTeamLeader", "false");
-				user.set("isTeamAdmin", "false");
-				user.set("userCode", 1223);
-			}
-			else if(role == "Team Leader") {
-				user.set("isTeamMember", "false");
-				user.set("isTeamLeader", "true");
-				user.set("isTeamAdmin", "false");
-				user.set("userCode" , 1245);
-			}
-			else if(role == "Team Admin") {
-				user.set("isTeamMember", "false");
-				user.set("isTeamLeader", "false");
-				user.set("isTeamAdmin", "true");
-				user.set("userCode" , 1234);
-			}
-			if(roleinteam == "Designer"){
-				user.set("RoleinTeam", "Designer");
-			
-			}
-
-			else if(roleinteam == "Coder"){
-				user.set("RoleinTeam", "coder");
-			
-			}
-			else if(roleinteam == "Tester"){
-				user.set("RoleinTeam", "Tester");
-			}
-
 			user.set("gender", gender);
 			user.set("dob", dob);
-			user.set("teamName", teamName);
-			user.set("projectName", projectName);
 
+			person.set("username", username);
+			person.set("firstName", firstName);
+			person.set("lastName", lastName);
+			person.set("role", role);
+			person.set("roleInTeam", roleinteam);
+			person.set("teamName", teamName);
+			person.set("projectName", projectName);
+
+			person.save();
 			user.signUp(null, {
 				success: function(user) {
 					$('<p>').text("Congratulations! Your account has been made.").appendTo('form');
@@ -126,7 +105,7 @@ var main = function() {
 					$('#confirmPassword').val('');
 
 					//window.location = "verification.html";
-					alert("Please verify your e-mail then log in");
+					alert("Please verify your e-mail to log in.");
 
 					window.location = "index.html";
 				},
@@ -134,6 +113,36 @@ var main = function() {
 					alert("Error: " + error.code + " " + error.message);
 				}
 			});
+
+			// if(role == "Team Member") {
+			// 	user.set("isTeamMember", "true");
+			// 	user.set("isTeamLeader", "false");
+			// 	user.set("isTeamAdmin", "false");
+			// 	user.set("userCode", 1223);
+			// }
+			// else if(role == "Team Leader") {
+			// 	user.set("isTeamMember", "false");
+			// 	user.set("isTeamLeader", "true");
+			// 	user.set("isTeamAdmin", "false");
+			// 	user.set("userCode" , 1245);
+			// }
+			// else if(role == "Team Admin") {
+			// 	user.set("isTeamMember", "false");
+			// 	user.set("isTeamLeader", "false");
+			// 	user.set("isTeamAdmin", "true");
+			// 	user.set("userCode" , 1234);
+			// }
+			// if(roleinteam == "Designer"){
+			// 	user.set("RoleinTeam", "Designer");		
+			// }
+
+			// else if(roleinteam == "Coder"){
+			// 	user.set("RoleinTeam", "coder");
+			
+			// }
+			// else if(roleinteam == "Tester"){
+			// 	user.set("RoleinTeam", "Tester");
+			// }
 		}
 
 		// Make sure the method returns false so that the page is not reloaded
