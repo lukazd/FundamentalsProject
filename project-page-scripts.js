@@ -491,8 +491,9 @@ var main = function() {
             				});
             			}
             			else {
-            				result.set("toBeDeleted", true);
-            				result.save(null, {
+            				result[0].set("toBeDeleted", true);
+            				result[0].set("verified", false);
+            				result[0].save(null, {
             					success: function(result) {
             						alert("Calendar event deletion submitted for approval");
             					},
