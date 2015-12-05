@@ -338,7 +338,7 @@ function updatePage(teamName) {
 				var object = results[i];
 				var userTeam = object.get('teamName');
 				var role = object.get('role');
-				if(role === "Member") {
+				if(role === "Team Member") {
 					var firstName = object.get('firstName');
 					var lastName = object.get('lastName');
 					var username = object.get('username') ;
