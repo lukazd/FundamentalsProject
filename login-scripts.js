@@ -3,9 +3,9 @@ var main = function() {
 		"eQfDDqUmQPpY85rOVvzFSuqLqeHPBtENaKm9mSoA");
 
 	var currentUser = Parse.User.current();
-                if (currentUser) {
-                    Parse.User.logOut();
-                }
+    if (currentUser) {
+        Parse.User.logOut();
+    }
 
 	$('#loginbutton').click(function() {
 

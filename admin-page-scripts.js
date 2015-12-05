@@ -5,11 +5,23 @@ var main = function() {
 	var firstName = Parse.User.current().get("firstName");
 	var lastName = Parse.User.current().get("lastName");
 	var username = Parse.User.current().get("username");
-	var userRole = "Team Member";
-
-	if( Parse.User.current().get("isTeamAdmin") == "true") {
-		userRole = "Team Admin";
-	}
+	var userRole = "Admin";
+	//Since this is the admin page, we should implement functionality to verify
+	//this user is an admin. Modify below method to do that.
+	// var Person = Parse.Object.extend("Person");
+	// 		var query = new Parse.Query(Person);
+	// 		query.equalTo("username", username);
+	// 		query.first({
+	// 			success: function(result){
+	// 				if(result != null) {
+	// 					userRole = result.get("role");
+	// 					$('#user-role').text(userRole);
+	// 				}
+	// 				else {
+	// 					alert("This user does not exist.");
+	// 				}
+	// 			}
+	// 		});
 
 	// Display the user's credentials on the page
 	$('#name').text(firstName + " " + lastName);
