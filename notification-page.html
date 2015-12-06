@@ -37,8 +37,7 @@
         window.location.reload();
     }
 
-
-    function add(i, obj) {
+    function add(i, obj, isTeamLeader) {
 
 		//Create an input type dynamically.   
 		var element1= document.createElement("input");
@@ -54,41 +53,141 @@
 		element1.onclick = function() { // Note this is a function
             var r = confirm("Press OK to confirm");
             if (r== true) {
+                if(isTeamLeader) {
 
+                    var Event = Parse.Object.extend("CalendarEvent");
+                    var query = new Parse.Query(Event);
+                    query.equalTo("objectId", obj);
+                    query.find({
+                        success: function(results) {
+                            for(var i = 0; i < results.length; i++){
+                                var object = results[i]
+                                if (object.get("toBeDeleted") == true ){
+                                    object.destroy();
+                                    updatepage();
+                                }
+                                else if (object.get("toBeDeleted") == false ){
+                                    object.set("verified", true);
+                                    object.save();
+                                    updatepage();
+                                }
+                            }
+                        },
+                        error: function(error) {
+                            alert("Error: " + error.code + " " + error.message);
+                        }
+                    });
                 }
             }
 
+        };
 
 
 
+        element2.type = "button";
+        element2.value = "Dismiss"; // Really? You want the default value to be the type string?
+        element2.name = "Dismiss";  // And the name too?
+        element2.id = i;
+        element2.style.color = "black";
+        element2.onclick = function() { // Note this is a function
 
-        if( Parse.User.current().get("isTeamLeader") == "true" ) {
-            var teamName = Parse.User.current().get("teamName");
-            var query = new Parse.Query(Event);
-            query.equalTo("objectId", obj);
-            query.find({
+            var r = confirm("Press OK to confirm");
+            if (r== true){
+                if(isTeamLeader) {
 
-                    
+                    var Event = Parse.Object.extend("CalendarEvent");
+                    var query = new Parse.Query(Event);
+                    query.equalTo("objectId", obj);
+                    query.find({
+                        success: function(results) {
+                            for(var i = 0; i < results.length; i++){
+                                var object = results[i]
+                                console.log(object.get("toBeDeleted"), object.get("verified"));
+                                if (object.get("toBeDeleted") == true ) {
+                                    object.set("toBeDeleted", false);
+                                    object.set("verified", true);
+                                    object.save();
+                                    updatepage();
+                                }
+                                else if (object.get("toBeDeleted") == false ) { 
+                                    object.destroy();
+                                    updatepage();
+                                }
 
+                            }
+                        },
+                        error: function(error) {
+                            alert("Error: " + error.code + " " + error.message);
+                        }
+                    });
                 }
+
             }
+    
+        };
 
-
+        var foo = document.getElementById("teamlistholder");
+        //Append the element in page (in span).  
+        foo.appendChild(element1);
+        foo.appendChild(element2);
 
 }
 
 </script>
 
 
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-            <ul class="team-members">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
                 <li>
+                        <a href="landing-page.html">Home</a>
                 </li>
                 <li>
+                    <a href="project-page.html">My Project</a>
+                </li>
+                <li>
+                    <button type="submit" class="btn" id="logoutbutton">Log Out</button>
                 </li>
             </ul>
         </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<div class="teamsection"> 
+    <div class="container"> 
+        <h3>Pending Requests:</h3> 
+        <ul class="team-members">
+            <div id="teamlistholder"></div>
+        </ul>
+    </div> 
+</div>
+
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline">
+                </ul>
+                <p class="copyright text-muted small">Copyright &copy; FOSE 2015. All Rights Reserved</p>
             </div>
         </div>
+    </div>
+</footer>
 </body>
 </html>
