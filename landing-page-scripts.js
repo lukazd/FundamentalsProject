@@ -36,45 +36,45 @@ var main = function() {
 				}
 				else {
 					$('#teamname').text("Team: " + teamName);
-				}
 				
-				var Person = Parse.Object.extend("Person");
-				var query = new Parse.Query(Person);
-				query.equalTo("teamName", teamName);
-				query.find({
-					success: function(results) {
-						for(var i = 0; i < results.length; i++){
-							var object = results[i];
-							//get the fields for each team member found
-							var teammateName = object.get('firstName') + " " + object.get('lastName');
-							var teammateRole = object.get("role");
-
-							//display the team members in a list
-							$('<li>').text(teammateName + ": " + teammateRole).appendTo('#teamlistholder');
+					// Get the teammates
+					var Person = Parse.Object.extend("Person");
+					var query = new Parse.Query(Person);
+					query.equalTo("teamName", teamName);
+					query.find({
+						success: function(results) {
+							for(var i = 0; i < results.length; i++){
+								var object = results[i];
+								//get the fields for each team member found
+								var teammateName = object.get('firstName') + " " + object.get('lastName');
+								var teammateRole = object.get("role");
+	
+								//display the team members in a list
+								$('<li>').text(teammateName + ": " + teammateRole).appendTo('#teamlistholder');
+							}
+						},
+						error: function(error) {
+							console.log("Error: " + error.code + " " + error.message);
 						}
-					},
-					error: function(error) {
-						console.log("Error: " + error.code + " " + error.message);
-					}
-				});
+					});
 
-				//get the user's teamName so we can query the Projects table to find all projects
-				//that that team is working on
-				var Projects = Parse.Object.extend("Projects");
-				var query = new Parse.Query(Projects);
-				query.equalTo("assignedTeam", teamName);
-				query.find({
-					success: function(results){
-						for(var i = 0; i < results.length; i++){
-							//display all projects found for that team
-							currProjectName = results[i].get("projectName");
-							$('<li>').text(currProjectName).appendTo("#projectlistholder")
-								.click(function() {
-									window.location.href = "project-page.html" + "#" + currProjectName;
+					// Get the user's projects
+					var Projects = Parse.Object.extend("Projects");
+					var query = new Parse.Query(Projects);
+					query.equalTo("assignedTeam", teamName);
+					query.find({
+						success: function(results){
+							for(var i = 0; i < results.length; i++){
+								//display all projects found for that team
+								currProjectName = results[i].get("projectName");
+								$('<li>').text(currProjectName).appendTo("#projectlistholder")
+									.click(function() {
+										window.location.href = "project-page.html" + "#" + currProjectName;
 								});
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 			else {
 				alert("This user does not exist.");

@@ -34,12 +34,12 @@ var main = function() {
 					
 								var obj = object.id;
 								if(deleting) {
-									$('<li>').text("Deleting Event: " + name + " (" + description + ") " + "     " + "Project: " + projectName+ "      from " + startDate.getMonth() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + endDate.getMonth() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
+									$('<li>').text("Deleting Event: " + name + " (" + description + ") " + "     " + "Project: " + projectName+ "      from " + (parseInt(startDate.getMonth(), 10)+1).toString() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + (parseInt(endDate.getMonth(), 10)+1).toString() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
 								}
 								else {
-									$('<li>').text("Adding Event: " + name + " (" + description + ") " + "     " + "Project: " + projectName+ "      from " + startDate.getMonth() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + endDate.getMonth() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
+									$('<li>').text("Adding Event: " + name + " (" + description + ") " + "     " + "Project: " + projectName+ "      from " + (parseInt(startDate.getMonth(), 10)+1).toString() +"-" +startDate.getDate() +"-" + startDate.getFullYear() + " to " + (parseInt(endDate.getMonth(), 10)+1).toString() +"-" +endDate.getDate() +"-" + endDate.getFullYear()).appendTo('#teamlistholder');
 								}
-								add(i, obj);
+								add(i, obj, true);
 							}
 						}
 					},

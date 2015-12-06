@@ -65,7 +65,9 @@ var main = function() {
 								start: results[i].get("startDate"),
 								end: results[i].get("endDate"),
 								id: results[i].id
-							};	
+							};
+							// The end date must be adjusted before displaying to displayed properly
+							newEvent.end.setTime(newEvent.end.getTime() + 86400000);	
 							projectCalendar.fullCalendar('renderEvent', newEvent, true);
 						}
 					}
@@ -121,6 +123,10 @@ var main = function() {
 	
 	// Keeps track of the nth question in the category (Does not correlate to questionId)
 	var currentQuestion = 0;
+
+	// team, resources, cost, time, experience, software, misc.
+	var categoryCurrentQuestion = [0,0,0,0,0,0,0];
+	var currentCategory = 0;
 	
 	// Keeps track of the current question's id
 	var currentQuestionId = 0;
@@ -133,87 +139,12 @@ var main = function() {
 	
 	var currentAnswerResults;
 
-	
-	 /* This was moved inside of the other query to make sure we have the right data
-	 // Get project team information
-	var Person = Parse.Object.extend("Person");
-	var query = new Parse.Query(Person);
-	query.equalTo("teamName", teamName);
-	query.equalTo("projectName", projectName);
-	query.find({
-		success: function(results) {
-			for(var i = 0; i < results.length; i++){
-				var object = results[i];
-				//get the fields for each team member found
-				var teammateName = object.get('firstName') + " " + object.get('lastName');
-				var teammateRoleInTeam = object.get('roleInTeam');
-				var teammateRole = object.get('role');
-
-				//display the team members in a list
-				$('<li>').text(teammateName + ": " + teammateRole + ", " + teammateRoleInTeam).appendTo('#teamlistholder');
-			}
-		},
-		error: function(error) {
-			alert("Could not get teammates.");
-		}
-	});*/
-	
-	/* Moved inside of the other query to make sure we have the right information
-	// Get the calendar events in the database and add them to the calendar
-	var CalendarEvent = Parse.Object.extend("CalendarEvent");
-	var query = new Parse.Query(CalendarEvent);
-	query.equalTo("projectName", projectName);
-	query.equalTo("teamName", teamName);
-	query.find({
-		success: function(results) {
-			var projectCalendar = $('#calendar');
-			projectCalendar.fullCalendar();
-			
-			// Add the retrieved dates to the calendar
-			for (var i = 0; i < results.length; i++) {
-				if(results[i].get("verified")) {
-					var newEvent = {
-						title: results[i].get("name") + ' (' + results[i].get("description") + ')',
-						allDay: true,
-						start: results[i].get("startDate"),
-						end: results[i].get("endDate"),
-						id: results[i].id
-					};	
-					projectCalendar.fullCalendar('renderEvent', newEvent, true);
-				}
-			}
-		},
-		error: function(error) {
-			alert("Could not retrieve calendar event information");
-		}
-	});
-	*/
-	
-	// Find the user role
-	/*
-	if( Parse.User.current().get("isTeamLeader") == "true" ) {
-		userRole = "Team Leader";
-	}
-	else if( Parse.User.current().get("isTeamAdmin") == "true") {
-		userRole = "Team Admin";
-	}*/
-
-	//$('#name').text(firstName + " " + lastName);
-	//$('#user-role').text(userRole);
-
 	// Log Out functionality
 	$('#logoutbutton').click(function() {
 		Parse.User.logOut();
 		window.location = "index.html";
 		return false;
 	});
-	
-	/* moved to inside of query to make sure we have the right information
-	// Remove the questionnaire and process selector for non team leaders
-	if(!(userRole === "Team Leader") && Parse.User.current().get("canAnswerQuestionnaire") == false) {
-		$('.questionnaire').remove();
-		$('#processmodeldropdown').remove();
-	} */
 
 	// Save the process model chosen to the database
 	$('#processmodeldropdown').click(function(e) {
@@ -267,30 +198,37 @@ var main = function() {
 		if(idClicked == "teamcategorybutton")
 		{
 			category = "Team";
+			currentCategory = 0;
 		}
 		else if(idClicked == "resourcescategorybutton")
 		{
 			category = "Resources";
+			currentCategory = 1;
 		}
 		else if(idClicked == "timecategorybutton")
 		{
 			category = "Time";
+			currentCategory = 2;
 		}
 		else if(idClicked == "costcategorybutton")
 		{
 			category = "Cost";
+			currentCategory = 3;
 		}
 		else if(idClicked == "softwarecategorybutton")
 		{
 			category = "Software";
+			currentCategory = 4;
 		}
 		else if(idClicked == "experiencecategorybutton")
 		{
 			category = "Experience";
+			currentCategory = 5;
 		}
 		else if(idClicked == "misccategorybutton")
 		{
 			category = "Misc.";
+			currentCategory = 6;
 		}
 		
 		
@@ -303,23 +241,25 @@ var main = function() {
 		query.find({
 			success: function(results){
 				questions = results;
-				$('#questiontext').text(results[currentQuestion].get("text"));
-				var questionId = results[currentQuestion].get("questionId");
-				currentQuestionId = questionId;
-				var Answer = Parse.Object.extend("Answer");
-				var answerQuery = new Parse.Query(Answer);
-				answerQuery.ascending("answerId");
-				answerQuery.equalTo("questionId", questionId);
-				answerQuery.find({
-					success: function(answerResults){
-						currentAnswerResults = answerResults;
-						for(var i = 0; i < answerResults.length; i++){
-						//display all answers found for that question
-							$("#answerlistdropdown").append('<li><a id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
-							//$("#answerlistdropdown").append('<li><a href="#">'+ answerResults[i].get("text")+'</a></li>');
+				if(questions.length > categoryCurrentQuestion[currentCategory]) {
+					$('#questiontext').text(results[categoryCurrentQuestion[currentCategory]].get("text"));
+					var questionId = results[categoryCurrentQuestion[currentCategory]].get("questionId");
+					currentQuestionId = questionId;
+					var Answer = Parse.Object.extend("Answer");
+					var answerQuery = new Parse.Query(Answer);
+					answerQuery.ascending("answerId");
+					answerQuery.equalTo("questionId", questionId);
+					answerQuery.find({
+						success: function(answerResults){
+							currentAnswerResults = answerResults;
+							for(var i = 0; i < answerResults.length; i++){
+							//display all answers found for that question
+								$("#answerlistdropdown").append('<li><a id=answerchoice'  + answerResults[i].get("answerId") +  ' class=answerchoice>'+ answerResults[i].get("text")+'</a></li>');
+								//$("#answerlistdropdown").append('<li><a href="#">'+ answerResults[i].get("text")+'</a></li>');
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		});	
 	});
@@ -329,26 +269,14 @@ var main = function() {
 		// Get which answer choice was clicked
 		var idClicked = this.id;
 		var idNumber = parseInt(idClicked.charAt(idClicked.length-1));
-		
-		
+			
 		// Find the answer based on answerId and questionId
 		var answerQuery = new Parse.Query("Answer");
 		answerQuery.equalTo("answerId", idNumber);
 		answerQuery.equalTo("questionId", currentQuestionId);
-		
-		/*
-		var UserAnswer = Parse.Object.extend("UserAnswer");
-		var userAnswer = new UserAnswer();
-		userAnswer.set("teamName", teamName);
-		userAnswer.set("projectName", projectName);
-		userAnswer.set("questionId", currentQuestionId);
-		userAnswer.set("answerId", idNumber);
-		userAnswer.save();
-		*/
-
 		answerQuery.find({
 			success: function(answer) {
-			// The object was retrieved successfully.
+				// The object was retrieved successfully.
 				// Increment the score for each process model by the answers values
 				scores[0] += answer[0].get("waterfallValue");
 				scores[1] += answer[0].get("agileValue");
@@ -365,10 +293,11 @@ var main = function() {
 		$('#answerlistdropdown').empty();
 		
 		currentQuestion++;
-		if(questions.length > currentQuestion) {
+		categoryCurrentQuestion[currentCategory]++;
+		if(questions.length > categoryCurrentQuestion[currentCategory]) {
 				
-			$('#questiontext').text(questions[currentQuestion].get("text"));
-			var questionId = questions[currentQuestion].get("questionId");
+			$('#questiontext').text(questions[categoryCurrentQuestion[currentCategory]].get("text"));
+			var questionId = questions[categoryCurrentQuestion[currentCategory]].get("questionId");
 			currentQuestionId = questionId;
 			var Answer = Parse.Object.extend("Answer");
 			var answerQuery = new Parse.Query(Answer);
@@ -541,7 +470,7 @@ var main = function() {
 				allDay: true,
 				start: startDate,
 				end: endDate
-			};
+			}
 		
 
 				// Create the new row and set its fields
@@ -562,6 +491,8 @@ var main = function() {
 						// Add the event to the calendar only if it has been verified
 						newEvent.id = result.id;
 						if(verified == true) {
+							// The end date must be adjusted before displaying to displayed properly
+							newEvent.end.setTime(newEvent.end.getTime() + 86400000);
 							projectCalendar.fullCalendar('renderEvent', newEvent, true);
 							alert('A new calendar event has been created');
 						}
