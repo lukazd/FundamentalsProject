@@ -32,10 +32,6 @@ var main = function() {
 	});
 
 	$('#signupbutton').click(function() {
-		var currentUser = Parse.User.current();
-		if(currentUser){
-			Parse.User.logOut();
-		}
 
 		var username = $('#inputUsername').val();
 		var firstName = $('#inputFirstName').val();
@@ -76,6 +72,15 @@ var main = function() {
 		}
 		else if(role == "Admin" && roleCode != teamAdminKey){
 			alert("Invalid role code");
+		}
+		else if(firstName == ""){
+			alert("Enter your first name");
+		}
+		else if(lastName == ""){
+			alert("Enter your last name");
+		}
+		else if(email == ""){
+			alert("You must enter an e-mail address");
 		}
 		else{
 			var user = new Parse.User();
