@@ -110,9 +110,10 @@ var main = function() {
 			}
 			person.set("projectName", projectName);
 
-			person.save();
+			// person.save();
 			user.signUp(null, {
 				success: function(user) {
+					person.save();
 					$('<p>').text("Congratulations! Your account has been made.").appendTo('form');
 					$('#inputUsername').val('');
 					$('#inputFirstName').val('');
