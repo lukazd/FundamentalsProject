@@ -70,12 +70,13 @@ var main = function() {
 					else {
 						alert("This user does not exist.");
 					}
+					location.reload();
 				},
 				error: function(error) {
 					alert("The role could not be updated.");
 				}
 			});
-			updatePage();
+			// updatePage();
 		}	
 	});
 
