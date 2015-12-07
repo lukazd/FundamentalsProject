@@ -58,12 +58,12 @@ var main = function() {
 			query.first({
 				success: function(result){
 					if(result != null) {
-						if(result.get("role") == "Member"){
-							result.set("role", "Leader");
+						if(result.get("role") == "Team Member"){
+							result.set("role", "Team Leader");
 							result.save();
 						}
-						else if(result.get("role") == "Leader"){
-							result.set("role", "Member");
+						else if(result.get("role") == "Team Leader"){
+							result.set("role", "Team Member");
 							result.save();
 						}
 					}
