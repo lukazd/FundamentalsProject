@@ -95,6 +95,8 @@ var main = function() {
 			person.set("lastName", lastName);
 			person.set("role", role);
 			person.set("roleInTeam", roleinteam);
+			person.set("canAnswerQuestionnaire", false);
+
 			if(role == "Admin"){
 				person.set("teamName", "");
 			}
