@@ -111,7 +111,7 @@ var main = function() {
 						error: function(myObject, error) {
 							alert("Could not remove the team member");
 						}
-					})
+					});
 				},
 				error: function(error) {
 					alert("This user does not exist or the action is not allowed.");
@@ -139,7 +139,7 @@ var main = function() {
 						error: function(myObject, error) {
 							alert("Could not add team member.");
 						}
-					})
+					});
 				},
 				error: function(error) {
 					alert("This user does not exist or the action is not allowed.");
@@ -175,7 +175,7 @@ var main = function() {
 							error: function(projects, error) {
 								alert("Could not add project.");
 							}
-						})
+						});
 					}
 				},
 				error: function(error) {
@@ -199,6 +199,30 @@ var main = function() {
 						results[0].destroy({
 							success: function(myObject) {
 								alert(projectName + " was successfully removed.");
+
+								var Person = Parse.Object.extend("Person");
+								var query = new Parse.Query(Person);
+								var username = $('#usernameforprojectselector').val();
+								query.equalTo("projectName", projectName);
+								query.find({
+									success: function(results){
+										for(var i = 0; i < results.length; i++) {
+											results[i].set("projectName", "");
+											results[i].save(null, {
+												success: function(myObject) {
+													// Do nothing
+												},
+												error: function(myObject, error) {
+													// Do nothing
+												}
+											});
+										}
+									},
+									error: function(error) {
+										alert("This user does not exist or the action is not allowed.");
+									}
+								});
+
 								updatePage(teamName);
 							},
 							error: function(myObject, error){
@@ -240,7 +264,7 @@ var main = function() {
 							error: function(myObject, error) {
 								alert("Could not change user's project.");
 							}
-						})
+						});
 					}
 				},
 				error: function(error) {
@@ -271,7 +295,7 @@ var main = function() {
 							error: function(myObject, error) {
 								alert("Could not change user's role in team.");
 							}
-						})
+						});
 					}
 				},
 				error: function(error) {
