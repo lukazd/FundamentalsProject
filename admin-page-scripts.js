@@ -90,7 +90,7 @@ function updatePage() {
 	// Populate the promotion select
 	var Person = Parse.Object.extend("Person");
 	var query = new Parse.Query(Person);
-	query.notContainedIn("Role", ["Admin"]);
+	query.notContainedIn("role", ["Admin"]);
 	query.find({
 		success: function(results) {
 			for(var i = 0; i < results.length; i++) {
@@ -103,11 +103,14 @@ function updatePage() {
 
 				var promoteDemoteUserSelect = document.getElementById("usernametopromoteordemoteselector");
 				var optionPromoteDemote = document.createElement("option");
-				if(role == "Member"){
+				if(role == "Team Member"){
 					optionPromoteDemote.text = firstName + " " + lastName + " " + "(" + username + ")" + " " + "(Role: Team Member)";
 				}
-				else{
+				else if(role == "Team Leader"){
 					optionPromoteDemote.text = firstName + " " + lastName + " " + "(" + username + ")" + " " + "(Role: Team Leader)";
+				}
+				else{
+					optionPromoteDemote.text = firstName + " " + lastName + " " + "(" + username + ")" + " " + "(Role not found)";
 				}
 				optionPromoteDemote.value = username;
 				promoteDemoteUserSelect.add(optionPromoteDemote);
